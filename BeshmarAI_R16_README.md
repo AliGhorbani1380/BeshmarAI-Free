@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/beshmarai-readme-hero.webp" alt="BeshmarAI — private on-device AI pill counting" width="100%" />
+  <img src="apps/site/public/brand/site/logo-full.png" alt="BeshmarAI | قرص شمار" width="520" />
 </p>
 
 <div align="center">
