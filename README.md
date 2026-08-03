@@ -99,21 +99,7 @@ The public model package is split into GitHub-friendly chunks and verified again
 
 The first accurate-count preparation can therefore require an approximately 80 MB transfer. Keep the page open until preparation is complete. Later sessions can reuse cached model data when the browser’s storage policy allows it.
 
-## Evaluation snapshot
 
-The following figures are the project’s clean held-out test results for the final pill-counting model. They describe a controlled evaluation set and are **not** a guarantee for every camera, pill type, lighting condition, or operational environment.
-
-| Metric | Result |
-|---|---:|
-| Test images | 1,482 |
-| Mean absolute error (MAE) | 0.8023 |
-| Exact-count accuracy | 80.09% |
-| Within ±1 pill | 89.95% |
-| Within ±2 pills | 93.32% |
-| Within ±5 pills | 96.29% |
-| Mean signed error | +0.3124 |
-
-Real-world performance can be lower when pills overlap, objects are partially outside the frame, the surface reflects light, the camera is out of focus, the lens is dirty, or the device/browser cannot execute the preferred runtime reliably.
 
 ## Architecture
 
