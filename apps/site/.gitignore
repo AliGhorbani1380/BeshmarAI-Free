@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+.env
+.env.local
+.env.*.local
+cms/.env
+cms/data
+cms/uploads
+npm-debug.log*

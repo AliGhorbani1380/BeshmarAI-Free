@@ -1,0 +1,26 @@
+{
+  "name": "beshmarai-public-site",
+  "version": "3.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3200",
+    "build": "next build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource-variable/vazirmatn": "5.2.8",
+    "@fontsource/estedad": "5.2.1",
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "typescript": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

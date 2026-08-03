@@ -1,0 +1,33 @@
+{
+  "name": "beshmaraiweb",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint src tools/sync-ort-runtime.cjs tools/verify-public-runtime.cjs tools/test-final-runtime-races.cjs",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "release:check": "npm run lint && npm run typecheck && npm run test:final-runtime-races && npm run verify:runtime && npm run build",
+    "sync:ort-runtime": "node tools/sync-ort-runtime.cjs",
+    "test:final-runtime-races": "node tools/test-final-runtime-races.cjs",
+    "prebuild": "npm run sync:ort-runtime",
+    "verify:runtime": "node tools/verify-public-runtime.cjs"
+  },
+  "dependencies": {
+    "onnxruntime-web": "1.27.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "oxlint": "^1.71.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1",
+    "vite-plugin-pwa": "^1.3.0"
+  }
+}

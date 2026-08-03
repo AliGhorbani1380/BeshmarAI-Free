@@ -1,0 +1,20 @@
+{
+  "marker": "BESHMARAI_PUBLIC_MODEL_MANIFEST_V1",
+  "version": 1,
+  "models": [
+    {
+      "id": "preview",
+      "label": "مدل شمارش زنده",
+      "bytes": 2674908,
+      "sha256": "283AFE028C6977C16CF2AF26332D022C896038EEF5A2947B4D3E1A4F46390662",
+      "parts": []
+    },
+    {
+      "id": "final",
+      "label": "مدل شمارش دقیق",
+      "bytes": 80805153,
+      "sha256": "6EB79C2CA51B74A50EF6E9F7AC1413CB50405BB4E9AFDE6502D2239E4B8CE121",
+      "parts": []
+    }
+  ]
+}

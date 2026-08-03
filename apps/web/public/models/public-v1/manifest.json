@@ -1,0 +1,49 @@
+{
+    "marker":  "BESHMARAI_PUBLIC_MODEL_MANIFEST_V1",
+    "version":  1,
+    "generatedAt":  "2026-08-02T22:49:55.7626616+03:30",
+    "partSizeBytes":  20971520,
+    "models":  [
+                   {
+                       "id":  "preview",
+                       "label":  "مدل شمارش زنده",
+                       "bytes":  2674908,
+                       "sha256":  "283AFE028C6977C16CF2AF26332D022C896038EEF5A2947B4D3E1A4F46390662",
+                       "parts":  [
+                                     {
+                                         "path":  "models/public-v1/preview/part-001.bin",
+                                         "bytes":  2674908,
+                                         "sha256":  "283AFE028C6977C16CF2AF26332D022C896038EEF5A2947B4D3E1A4F46390662"
+                                     }
+                                 ]
+                   },
+                   {
+                       "id":  "final",
+                       "label":  "مدل شمارش دقیق",
+                       "bytes":  80805153,
+                       "sha256":  "6EB79C2CA51B74A50EF6E9F7AC1413CB50405BB4E9AFDE6502D2239E4B8CE121",
+                       "parts":  [
+                                     {
+                                         "path":  "models/public-v1/final/part-001.bin",
+                                         "bytes":  20971520,
+                                         "sha256":  "DF23728973C5856249FD091F9B5EAA23C784FDE99BAD51FAFD453ACE443D1426"
+                                     },
+                                     {
+                                         "path":  "models/public-v1/final/part-002.bin",
+                                         "bytes":  20971520,
+                                         "sha256":  "F2AE75C5D3A3563C4F862476E4F7D01DE57AD333529A68B28769C374863BED0A"
+                                     },
+                                     {
+                                         "path":  "models/public-v1/final/part-003.bin",
+                                         "bytes":  20971520,
+                                         "sha256":  "7875A90B97403CE4ED2BD36DB474DC68B65D8B2E1709961FC508B6DD3B957DF3"
+                                     },
+                                     {
+                                         "path":  "models/public-v1/final/part-004.bin",
+                                         "bytes":  17890593,
+                                         "sha256":  "C7F61FF4B488D6C3D7D48BDCDD498E9564189864C1149B52A89256F8F6D9D691"
+                                     }
+                                 ]
+                   }
+               ]
+}

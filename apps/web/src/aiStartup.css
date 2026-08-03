@@ -1,0 +1,281 @@
+.ai-startup-screen {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  min-height: 100dvh;
+  padding:
+    max(20px, env(safe-area-inset-top))
+    max(18px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom))
+    max(18px, env(safe-area-inset-left));
+
+  overflow: hidden;
+
+  color: #efffff;
+  background: #02090c;
+}
+
+.ai-startup-backdrop {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% 26%,
+      rgba(0, 229, 255, 0.18),
+      transparent 34%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(1, 22, 27, 0.96),
+      rgba(1, 7, 10, 0.99)
+    );
+}
+
+.ai-startup-card {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  justify-items: center;
+
+  width: min(100%, 430px);
+  padding: 30px 24px 26px;
+  gap: 20px;
+
+  border:
+    1px solid
+    rgba(91, 247, 255, 0.28);
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(9, 35, 41, 0.93),
+      rgba(2, 13, 17, 0.97)
+    );
+
+  box-shadow:
+    0 28px 90px
+    rgba(0, 0, 0, 0.62),
+    0 0 50px
+    rgba(0, 229, 255, 0.1);
+
+  text-align: center;
+}
+
+.ai-startup-logo {
+  width: min(190px, 60vw);
+  height: auto;
+  object-fit: contain;
+}
+
+.ai-startup-orbit {
+  position: relative;
+
+  width: 74px;
+  height: 74px;
+
+  border:
+    1px solid
+    rgba(76, 246, 255, 0.24);
+  border-radius: 50%;
+
+  animation:
+    ai-startup-spin
+    2.2s
+    linear
+    infinite;
+}
+
+.ai-startup-orbit::before {
+  position: absolute;
+  inset: 11px;
+
+  border:
+    1px solid
+    rgba(76, 246, 255, 0.2);
+  border-radius: 50%;
+
+  content: '';
+}
+
+.ai-startup-orbit span {
+  position: absolute;
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+  background: #67fbff;
+
+  box-shadow:
+    0 0 16px
+    rgba(76, 246, 255, 0.9);
+}
+
+.ai-startup-orbit span:nth-child(1) {
+  top: -5px;
+  left: 32px;
+}
+
+.ai-startup-orbit span:nth-child(2) {
+  right: 2px;
+  bottom: 10px;
+}
+
+.ai-startup-orbit span:nth-child(3) {
+  left: 2px;
+  bottom: 10px;
+}
+
+.ai-startup-card header {
+  display: grid;
+  gap: 7px;
+}
+
+.ai-startup-card header strong {
+  font-size:
+    clamp(20px, 5vw, 26px);
+  font-weight: 950;
+}
+
+.ai-startup-card header span {
+  color: #8cb6bd;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ai-startup-progress {
+  position: relative;
+
+  width: 100%;
+  height: 13px;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(81, 243, 255, 0.22);
+  border-radius: 999px;
+
+  background:
+    rgba(0, 0, 0, 0.38);
+}
+
+.ai-startup-progress > span {
+  position: absolute;
+  inset-block: 0;
+  right: 0;
+
+  min-width: 3px;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #00dcae,
+      #55f7ff
+    );
+
+  box-shadow:
+    0 0 18px
+    rgba(67, 247, 255, 0.62);
+
+  transition:
+    width 180ms ease;
+}
+
+.ai-startup-details {
+  display: grid;
+  gap: 6px;
+}
+
+.ai-startup-details > strong {
+  color: #8cffff;
+  font-size: 22px;
+  font-weight: 950;
+}
+
+.ai-startup-details > span {
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.ai-startup-details > small,
+.ai-startup-card > p {
+  color: #86aab0;
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+.ai-startup-card > p {
+  max-width: 330px;
+  margin: 0;
+}
+
+.ai-startup-error {
+  display: grid;
+  width: 100%;
+  gap: 12px;
+
+  padding: 16px;
+
+  border:
+    1px solid
+    rgba(255, 108, 124, 0.42);
+  border-radius: 18px;
+
+  background:
+    rgba(65, 8, 15, 0.55);
+}
+
+.ai-startup-error strong {
+  color: #ffd5da;
+}
+
+.ai-startup-error span {
+  color: #ffb7c0;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.ai-startup-error button {
+  min-height: 46px;
+
+  border: 0;
+  border-radius: 15px;
+
+  color: #002327;
+  background:
+    linear-gradient(
+      135deg,
+      #8cffff,
+      #00dfd6
+    );
+
+  font: inherit;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+@keyframes ai-startup-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-startup-orbit {
+    animation-duration: 5s;
+  }
+
+  .ai-startup-progress > span {
+    transition: none;
+  }
+}
