@@ -2,64 +2,46 @@ import type { Metadata } from 'next'
 import { siteConfig } from '@/src/lib/site'
 
 export const metadata: Metadata = {
-  title: 'پشتیبانی',
-  description:
-    'راهنمای رفع مشکلات رایج نسخه عمومی قرص شمار و راه ارتباطی.',
+  title: 'Support',
+  description: 'Troubleshooting and support for the free BeshmarAI pill counter.',
   alternates: {
     canonical: '/support/',
+    languages: { en: '/support/', fa: '/fa/support/' },
   },
 }
 
-const items = [
-  {
-    title: 'دوربین باز نمی‌شود',
-    text: 'اجازه دوربین را برای این سایت فعال کنید، صفحه را روی HTTPS باز کنید و مرورگر را به‌روز نگه دارید.',
-  },
-  {
-    title: 'مدل دانلود نمی‌شود',
-    text: 'فضای ذخیره‌سازی مرورگر و اتصال پایدار را بررسی کنید. در اولین اجرا مدل دقیق حدود ۸۰ مگابایت است.',
-  },
-  {
-    title: 'شمارش کند است',
-    text: 'برنامه موتور مناسب دستگاه را انتخاب می‌کند. بستن برنامه‌های سنگین و خنک نگه‌داشتن گوشی می‌تواند کمک کند.',
-  },
-  {
-    title: 'نتیجه دقیق نیست',
-    text: 'نور یکنواخت، سطح دارای کنتراست، لنز تمیز و جدا بودن قرص‌ها را بررسی و نتیجه را دوباره شمارش کنید.',
-  },
-]
-
 export default function SupportPage() {
   return (
-    <main id="main">
+    <main id="main" className="locale-en">
       <section className="page-hero">
         <div className="container narrow">
-          <span className="badge"><i /> پشتیبانی</span>
-          <h1>رفع مشکلات رایج</h1>
-          <p>
-            نسخه عمومی بدون حساب کاربری کار می‌کند؛ بیشتر مشکلات به مجوز
-            دوربین، ذخیره مدل، مرورگر یا شرایط تصویربرداری مربوط‌اند.
-          </p>
+          <span className="badge"><i /> Support</span>
+          <h1>Get the camera, model, and PWA ready</h1>
+          <p>Most issues can be resolved without an account or remote support session.</p>
         </div>
       </section>
-
       <section className="section">
         <div className="container narrow article-content">
-          {items.map((item) => (
-            <section key={item.title}>
-              <h2>{item.title}</h2>
-              <p>{item.text}</p>
-            </section>
-          ))}
-
-          <h2>ارتباط</h2>
+          <h2>The camera does not open</h2>
           <p>
-            توضیح خطا، مدل دستگاه، نام مرورگر و زمان تقریبی رخداد را بدون
-            ارسال اطلاعات بیمار یا تصویر محرمانه به{' '}
-            <a href={`mailto:${siteConfig.supportEmail}`}>
-              {siteConfig.supportEmail}
-            </a>{' '}
-            بفرستید.
+            Use HTTPS, allow camera permission, close other applications using
+            the camera, and reload the page. On iPhone, confirm camera access in
+            Safari settings.
+          </p>
+          <h2>The model is downloading slowly</h2>
+          <p>
+            Keep the page open during the first preparation. Model chunks are
+            cached after download, so later sessions should not repeat the full transfer.
+          </p>
+          <h2>GPU is unavailable or unstable</h2>
+          <p>
+            Open Settings and choose Automatic or CPU/WebAssembly. You can also
+            reset the saved strategy and let BeshmarAI profile the device again.
+          </p>
+          <h2>Contact</h2>
+          <p>
+            Email <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a>{' '}
+            and include the device, browser version, and exact error message.
           </p>
         </div>
       </section>

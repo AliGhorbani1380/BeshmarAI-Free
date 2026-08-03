@@ -3,36 +3,34 @@ import { ArticleCard } from '@/src/components/ArticleCard'
 import { getArticles } from '@/src/lib/content'
 
 export const metadata: Metadata = {
-  title: 'مجله فناوری داروخانه و مصرف مسئولانه دارو',
+  title: 'Pharmacy Technology and Responsible Medicine Insights',
   description:
-    'آموزش شمارش قرص، فناوری داروخانه، داروی بلااستفاده، بسته‌بندی دارو و مصرف مسئولانه.',
+    'Practical guides to pill counting, pharmacy workflow, camera setup, unused medicine, and responsible medicine use.',
   alternates: {
-    canonical: '/blog',
+    canonical: '/blog/',
+    languages: { en: '/blog/', fa: '/fa/blog/' },
   },
 }
 
-export const revalidate = 900
-
 export default async function BlogPage() {
-  const articles = await getArticles()
+  const articles = await getArticles('en')
 
   return (
-    <main id="main">
+    <main id="main" className="locale-en">
       <section className="page-hero">
         <div className="container">
-          <span className="badge"><i /> مجله تخصصی قرص شمار</span>
-          <h1>راهنمای حرفه‌ای داروخانه و مصرف مسئولانه دارو</h1>
+          <span className="badge"><i /> BeshmarAI Insights</span>
+          <h1>Practical guidance for pharmacy work and responsible medicine use</h1>
           <p>
-            راهنماهای منبع‌دار درباره شمارش قرص، فناوری داروخانه، داروی
-            بلااستفاده، بسته‌بندی و مصرف منطقی دارو.
+            Source-based articles about reliable visual counting, camera setup,
+            workflow checks, unused medicines, and sustainable packaging.
           </p>
         </div>
       </section>
-
       <section className="section">
         <div className="container articles-grid">
           {articles.map((article) => (
-            <ArticleCard article={article} key={article.id} />
+            <ArticleCard article={article} key={article.id} locale="en" />
           ))}
         </div>
       </section>

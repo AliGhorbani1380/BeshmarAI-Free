@@ -1,62 +1,48 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'حریم خصوصی',
+  title: 'Privacy',
   description:
-    'سیاست حریم خصوصی نسخه عمومی قرص شمار با پردازش محلی تصویر روی دستگاه.',
+    'Privacy architecture of the free BeshmarAI edition, including local image processing and browser storage.',
   alternates: {
     canonical: '/privacy/',
+    languages: { en: '/privacy/', fa: '/fa/privacy/' },
   },
 }
 
 export default function PrivacyPage() {
   return (
-    <main id="main">
+    <main id="main" className="locale-en">
       <section className="page-hero">
         <div className="container narrow">
-          <span className="badge"><i /> حریم خصوصی</span>
-          <h1>تصویر شمارش روی دستگاه شما پردازش می‌شود</h1>
-          <p>
-            نسخه عمومی برای اجرای مستقل در مرورگر ساخته شده است.
-          </p>
+          <span className="badge"><i /> Privacy</span>
+          <h1>Counting images are processed on your device</h1>
+          <p>The free edition is designed to operate independently in the browser.</p>
         </div>
       </section>
-
       <section className="section">
         <div className="container narrow article-content">
-          <h2>دوربین و تصویر</h2>
+          <h2>Camera and images</h2>
           <p>
-            دسترسی دوربین فقط پس از اجازه شما فعال می‌شود. فریم‌ها و
-            تصاویر مورد استفاده برای شمارش به سرور ارسال نمی‌شوند و مدل
-            در همان مرورگر اجرا می‌شود.
+            Camera access begins only after your permission. Frames used for
+            counting are not sent to a BeshmarAI server for model inference.
           </p>
-
-          <h2>حساب و اطلاعات هویتی</h2>
+          <h2>No identity account</h2>
           <p>
-            نسخه عمومی حساب کاربری، شماره موبایل، OTP، پرداخت یا اشتراک
-            ندارد و برای شروع شمارش اطلاعات هویتی درخواست نمی‌کند.
+            The public edition has no user account, mobile number, OTP,
+            checkout, or subscription requirement.
           </p>
-
-          <h2>ذخیره محلی</h2>
+          <h2>Local browser storage</h2>
           <p>
-            مرورگر ممکن است فایل‌های برنامه، مدل‌های هوش مصنوعی، تنظیمات
-            دوربین و ترجیحات کاربر را در Cache Storage، IndexedDB یا
-            Local Storage همان دستگاه ذخیره کند. پاک‌کردن داده‌های سایت
-            این اطلاعات محلی را حذف می‌کند.
+            The browser can store application files, model chunks, device
+            strategy, camera settings, and language preference in Cache Storage,
+            IndexedDB, or Local Storage. Clearing site data removes them.
           </p>
-
-          <h2>میزبانی ایستا</h2>
+          <h2>Static hosting logs</h2>
           <p>
-            فایل‌های عمومی از سرویس میزبانی ایستا دریافت می‌شوند. ارائه‌دهنده
-            میزبانی ممکن است مطابق سیاست خود لاگ‌های فنی معمول مانند IP،
-            زمان درخواست و User-Agent را پردازش کند؛ برنامه تله‌متری خصوصی
-            یا ارسال تصویر شمارش ندارد.
-          </p>
-
-          <h2>اطلاعات حساس</h2>
-          <p>
-            نسخه بیمار، اطلاعات هویتی، کارت بانکی، چهره اشخاص یا اسناد
-            محرمانه را داخل کادر دوربین قرار ندهید.
+            Static hosting and network providers may process ordinary technical
+            request logs under their own policies. The public source contains no
+            private analytics or image-upload endpoint.
           </p>
         </div>
       </section>

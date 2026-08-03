@@ -14,6 +14,9 @@ import {
 import {
   clearDeviceStrategy,
   readDeviceStrategy,
+  readDeviceStrategyPreference,
+  resetDeviceStrategyPreference,
+  writeDeviceStrategyPreference,
 } from './deviceStrategy'
 
 export {
@@ -24,12 +27,19 @@ export {
   runFinalAccurateModel,
   ensureDeviceStrategyOnce,
   readDeviceStrategy,
+  readDeviceStrategyPreference,
+  writeDeviceStrategyPreference,
+  resetDeviceStrategyPreference,
 }
 
 export {
   clearFinalRuntimePlanHistory,
   clearDeviceStrategy,
 }
+
+export type {
+  DeviceStrategyPreference,
+} from './deviceStrategy'
 
 export type {
   FinalRuntimeDiagnostics,

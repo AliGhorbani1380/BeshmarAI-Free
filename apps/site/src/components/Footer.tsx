@@ -1,18 +1,44 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { siteConfig } from '@/src/lib/site'
 
 export function Footer() {
-  const year = new Date().getFullYear().toLocaleString('fa-IR')
+  const pathname = usePathname()
+
+  const isPersian =
+    pathname === '/fa' ||
+    pathname.startsWith('/fa/')
+
+  const year =
+    new Date().getFullYear().toLocaleString(
+      isPersian
+        ? 'fa-IR'
+        : 'en-US',
+    )
+
+  const prefix =
+    isPersian
+      ? '/fa'
+      : ''
 
   return (
-    <footer className="footer">
+    <footer
+      className="footer"
+      dir={isPersian ? 'rtl' : 'ltr'}
+    >
       <div className="container footer-top-v3">
         <div className="footer-brand-column-v3">
           <Link
             className="brand footer-brand"
-            href="/"
-            aria-label="صفحه اصلی قرص شمار | BeshmarAI"
+            href={isPersian ? '/fa/' : '/'}
+            aria-label={
+              isPersian
+                ? 'صفحه اصلی قرص شمار | BeshmarAI'
+                : 'BeshmarAI Pill Counter home'
+            }
           >
             <Image
               className="brand-logo-image footer-brand-logo-image"
@@ -23,47 +49,128 @@ export function Footer() {
               sizes="(max-width: 650px) 260px, 300px"
             />
           </Link>
+
           <p>
-            راهکار هوشمند شمارش قرص برای تکنسین‌ها و داروخانه‌هایی که
-            سرعت، نظم و تجربه حرفه‌ای می‌خواهند.
+            {isPersian
+              ? 'راهکار هوشمند شمارش قرص برای تکنسین‌ها و داروخانه‌هایی که سرعت، نظم و تجربه حرفه‌ای می‌خواهند.'
+              : 'Private, on-device pill counting for pharmacy teams that need speed, consistency, and a professional workflow.'}
           </p>
-          <a className="footer-app-link-v3" href={siteConfig.appUrl}>
-            ورود به قرص شمار
-            <span aria-hidden="true">←</span>
+
+          <a
+            className="footer-app-link-v3"
+            href={siteConfig.appUrl}
+          >
+            {isPersian
+              ? 'ورود به قرص شمار'
+              : 'Open BeshmarAI'}
+            <span aria-hidden="true">
+              {isPersian ? '←' : '→'}
+            </span>
           </a>
         </div>
 
         <div className="footer-links-v3">
-          <strong>محصول</strong>
-          <Link href="/#how-it-works">نحوه کار</Link>
-          <Link href="/#features">امکانات</Link>
-          <Link href="/pricing">نسخه رایگان</Link>
-          <Link className="footer-campaign-link-v4" href="/campaign">
-            پویش هم‌اندازه نیاز
+          <strong>
+            {isPersian
+              ? 'محصول'
+              : 'Product'}
+          </strong>
+          <Link href={`${prefix}/#how-it-works`}>
+            {isPersian
+              ? 'نحوه کار'
+              : 'How it works'}
           </Link>
-          <a href={siteConfig.appUrl}>شروع شمارش</a>
+          <Link href={`${prefix}/#features`}>
+            {isPersian
+              ? 'امکانات'
+              : 'Features'}
+          </Link>
+          <Link href={`${prefix}/pricing`}>
+            {isPersian
+              ? 'نسخه رایگان'
+              : 'Free edition'}
+          </Link>
+          <Link
+            className="footer-campaign-link-v4"
+            href={`${prefix}/campaign`}
+          >
+            {isPersian
+              ? 'پویش هم‌اندازه نیاز'
+              : 'Right-sized medicine campaign'}
+          </Link>
+          <a href={siteConfig.appUrl}>
+            {isPersian
+              ? 'شروع شمارش'
+              : 'Start counting'}
+          </a>
         </div>
 
         <div className="footer-links-v3">
-          <strong>محتوا</strong>
-          <Link href="/blog">مجله قرص شمار</Link>
-          <Link href="/category/pill-counting">شمارش قرص</Link>
-          <Link href="/category/pharmacy-technician">آموزش تکنسین</Link>
-          <Link href="/category/responsible-medicine-use">مصرف مسئولانه دارو</Link>
+          <strong>
+            {isPersian
+              ? 'محتوا'
+              : 'Insights'}
+          </strong>
+          <Link href={`${prefix}/blog`}>
+            {isPersian
+              ? 'مجله قرص شمار'
+              : 'BeshmarAI insights'}
+          </Link>
+          <Link href={`${prefix}/category/pill-counting`}>
+            {isPersian
+              ? 'شمارش قرص'
+              : 'Pill counting'}
+          </Link>
+          <Link href={`${prefix}/category/pharmacy-technician`}>
+            {isPersian
+              ? 'آموزش تکنسین'
+              : 'Technician training'}
+          </Link>
+          <Link href={`${prefix}/category/responsible-medicine-use`}>
+            {isPersian
+              ? 'مصرف مسئولانه دارو'
+              : 'Responsible medicine use'}
+          </Link>
         </div>
 
         <div className="footer-links-v3">
-          <strong>پشتیبانی و قوانین</strong>
-          <Link href="/support">پشتیبانی</Link>
-          <Link href="/safety">راهنمای ایمنی</Link>
-          <Link href="/privacy">حریم خصوصی</Link>
-          <Link href="/terms">قوانین استفاده</Link>
+          <strong>
+            {isPersian
+              ? 'پشتیبانی و قوانین'
+              : 'Support and policies'}
+          </strong>
+          <Link href={`${prefix}/support`}>
+            {isPersian
+              ? 'پشتیبانی'
+              : 'Support'}
+          </Link>
+          <Link href={`${prefix}/safety`}>
+            {isPersian
+              ? 'راهنمای ایمنی'
+              : 'Safety'}
+          </Link>
+          <Link href={`${prefix}/privacy`}>
+            {isPersian
+              ? 'حریم خصوصی'
+              : 'Privacy'}
+          </Link>
+          <Link href={`${prefix}/terms`}>
+            {isPersian
+              ? 'قوانین استفاده'
+              : 'Terms'}
+          </Link>
         </div>
       </div>
 
       <div className="container copyright">
-        <span>© {year} قرص شمار | BeshmarAI؛ تمامی حقوق محفوظ است.</span>
-        <a href={`mailto:${siteConfig.supportEmail}`}>
+        <span>
+          {isPersian
+            ? `© ${year} قرص شمار | BeshmarAI؛ تمامی حقوق محفوظ است.`
+            : `© ${year} BeshmarAI | قرص شمار. All rights reserved.`}
+        </span>
+        <a
+          href={`mailto:${siteConfig.supportEmail}`}
+        >
           {siteConfig.supportEmail}
         </a>
       </div>

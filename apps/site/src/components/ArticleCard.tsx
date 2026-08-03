@@ -1,17 +1,45 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Article } from '@/src/lib/content/types'
+import type { ContentLocale } from '@/src/lib/content'
 
 export function ArticleCard({
   article,
+  locale = 'en',
 }: {
   article: Article
+  locale?: ContentLocale
 }) {
+  const prefix =
+    locale === 'fa'
+      ? '/fa'
+      : ''
+
+  const numberLocale =
+    locale === 'fa'
+      ? 'fa-IR'
+      : 'en-US'
+
+  const readingLabel =
+    locale === 'fa'
+      ? 'دقیقه'
+      : 'min read'
+
+  const readLabel =
+    locale === 'fa'
+      ? 'مطالعه'
+      : 'Read article'
+
+  const arrow =
+    locale === 'fa'
+      ? '←'
+      : '→'
+
   return (
     <article className="article-card">
       <Link
         className="article-image"
-        href={`/blog/${article.slug}`}
+        href={`${prefix}/blog/${article.slug}`}
         aria-label={article.title}
       >
         <Image
@@ -27,15 +55,19 @@ export function ArticleCard({
         <div className="article-card-topline">
           <Link
             className="category-label"
-            href={`/category/${article.category.slug}`}
+            href={`${prefix}/category/${article.category.slug}`}
           >
             {article.category.name}
           </Link>
-          <span>{article.readingMinutes.toLocaleString('fa-IR')} دقیقه</span>
+          <span>
+            {article.readingMinutes.toLocaleString(numberLocale)}
+            {' '}
+            {readingLabel}
+          </span>
         </div>
 
         <h2>
-          <Link href={`/blog/${article.slug}`}>
+          <Link href={`${prefix}/blog/${article.slug}`}>
             {article.title}
           </Link>
         </h2>
@@ -44,13 +76,16 @@ export function ArticleCard({
 
         <div className="article-meta">
           <time dateTime={article.publishedAt}>
-            {new Intl.DateTimeFormat('fa-IR', {
+            {new Intl.DateTimeFormat(numberLocale, {
               dateStyle: 'medium',
             }).format(new Date(article.publishedAt))}
           </time>
-          <Link className="article-read-more" href={`/blog/${article.slug}`}>
-            مطالعه
-            <span aria-hidden="true">←</span>
+          <Link
+            className="article-read-more"
+            href={`${prefix}/blog/${article.slug}`}
+          >
+            {readLabel}
+            <span aria-hidden="true">{arrow}</span>
           </Link>
         </div>
       </div>

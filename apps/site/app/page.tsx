@@ -3,96 +3,86 @@ import Link from 'next/link'
 import { ArticleCard } from '@/src/components/ArticleCard'
 import { JsonLd } from '@/src/components/JsonLd'
 import { getArticles } from '@/src/lib/content'
+import { faqJsonLd } from '@/src/lib/seo'
 import { siteConfig } from '@/src/lib/site'
 
 const steps = [
   {
-    number: '۰۱',
-    title: 'قرص‌ها را آماده کنید',
+    number: '01',
+    title: 'Spread the pills',
     description:
-      'قرص‌ها را روی سطح مناسب پخش کنید و محدوده شمارش را داخل دوربین قرار دهید.',
+      'Place the pills on a clean, contrasting surface and frame the counting area with your camera.',
   },
   {
-    number: '۰۲',
-    title: 'هوش مصنوعی می‌شمارد',
+    number: '02',
+    title: 'Let on-device AI count',
     description:
-      'قرص شمار تصویر را تحلیل می‌کند و نتیجه پیشنهادی را در چند لحظه نمایش می‌دهد.',
+      'BeshmarAI analyzes the image locally with the best available GPU or CPU strategy for your device.',
   },
   {
-    number: '۰۳',
-    title: 'نتیجه را بررسی کنید',
+    number: '03',
+    title: 'Review the result',
     description:
-      'عدد و نشانه‌های تشخیص را ببینید، نتیجه را تأیید کنید یا شمارش را تکرار کنید.',
+      'Inspect the suggested count and detection markers, then confirm it or repeat the count when needed.',
   },
 ]
 
 const aiBenefits = [
-  'شمارش سریع‌تر در کارهای تکراری روزانه',
-  'نمایش واضح نتیجه برای بررسی تکنسین',
-  'رابط ساده و قابل استفاده با دوربین موبایل',
-  'طراحی‌شده برای جریان کاری واقعی داروخانه',
+  'Private inference: counting images stay on your device',
+  'Automatic, GPU/WebGPU, or CPU/WebAssembly execution',
+  'Accurate final model with reviewable detection markers',
+  'Installable PWA with cached models for repeat use',
 ]
 
 const faqItems = [
   {
-    question: 'آیا تصویر قرص به سرور ارسال می‌شود؟',
+    question: 'Are pill images uploaded to a server?',
     answer:
-      'خیر. پردازش شمارش روی همان دستگاه شما انجام می‌شود و تصویر برای اجرای مدل به سرور ارسال نمی‌شود.',
+      'No. Model inference runs in your browser and the counting image is not uploaded to a BeshmarAI backend.',
   },
   {
-    question: 'نسخه رایگان قرص شمار چگونه فعال می‌شود؟',
+    question: 'Is the public edition really free?',
     answer:
-      'نسخه عمومی بدون ورود و بدون محدودیت زمانی در دسترس است.',
+      'Yes. The public edition requires no account, phone number, OTP, payment, or subscription.',
   },
   {
-    question: 'آیا بدون اینترنت هم می‌توان شمارش کرد؟',
+    question: 'Can I choose CPU or GPU?',
     answer:
-      'پس از بارگذاری اولیه برنامه و مدل‌ها، بخش‌های ذخیره‌شده می‌توانند بدون اینترنت نیز اجرا شوند.',
+      'Yes. Automatic mode is recommended, while the settings screen also lets advanced users prefer WebGPU or CPU/WebAssembly and choose a CPU thread count.',
   },
   {
-    question: 'آیا برای استفاده باید وارد حساب شوم؟',
+    question: 'Can it work offline?',
     answer:
-      'خیر. نسخه عمومی بدون شماره موبایل، OTP و حساب کاربری اجرا می‌شود.',
+      'After the application and model assets have been cached, supported browser features can continue to work without a network connection.',
   },
   {
-    question: 'آیا نسخه عمومی رایگان است؟',
+    question: 'Does the AI result replace human verification?',
     answer:
-      'بله. نسخه عمومی روی وب بدون پرداخت و بدون اشتراک در دسترس است.',
-  },
-  {
-    question: 'آیا نتیجه هوش مصنوعی جایگزین بررسی تکنسین است؟',
-    answer:
-      'خیر. نتیجه پیشنهادی باید توسط کاربر بررسی و در صورت نیاز شمارش تکرار شود.',
+      'No. BeshmarAI is an assistive counting tool. The user remains responsible for reviewing and confirming every result.',
   },
 ]
 
 const softwareApplicationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: siteConfig.name,
-  alternateName: siteConfig.englishName,
+  name: 'BeshmarAI Pill Counter',
+  alternateName: siteConfig.persianName,
   description: siteConfig.description,
   url: siteConfig.appUrl,
   applicationCategory: 'BusinessApplication',
-  operatingSystem: 'Android, iOS Web App, Web',
-  inLanguage: 'fa-IR',
-  featureList: [
-    'شمارش قرص با دوربین موبایل',
-    'تحلیل تصویر با هوش مصنوعی',
-    'نمایش نتیجه پیشنهادی برای بررسی کاربر',
-    'اپلیکیشن Android و Web App برای iPhone',
-  ],
+  operatingSystem: 'Android, iOS, Windows, macOS, Linux',
+  inLanguage: ['en', 'fa'],
+  isAccessibleForFree: true,
+  featureList: aiBenefits,
 }
 
 export default async function HomePage() {
-  const articles = (await getArticles()).slice(0, 3)
-  const featuredArticle = articles[0]
-  const compactArticles = articles.slice(1)
+  const articles = (await getArticles('en')).slice(0, 3)
 
   return (
-    <main id="main">
-      {/* BESHMARAI_HOME_REDESIGN_V3_1 */}
+    <main id="main" className="locale-en">
       <JsonLd data={softwareApplicationJsonLd} />
+      <JsonLd data={faqJsonLd(faqItems)} />
 
       <section className="hero-v3">
         <div className="hero-grid-pattern-v3" aria-hidden="true" />
@@ -100,46 +90,47 @@ export default async function HomePage() {
           <div className="hero-copy-v3">
             <span className="eyebrow-v3">
               <span className="eyebrow-dot-v3" />
-              دستیار هوشمند تکنسین داروخانه
+              Private AI assistance for pharmacy teams
             </span>
 
             <h1>
-              شمارش قرص با
-              <br className="mobile-title-break-v42" />
-              {' '}هوش مصنوعی؛
-              <span>سریع‌تر، ساده‌تر، حرفه‌ای‌تر</span>
+              Count pills with
+              <br className="mobile-title-break-v42" />{' '}
+              on-device AI.
+              <span>Fast, private, and reviewable.</span>
             </h1>
 
             <p className="hero-lead-v3">
-              دوربین موبایل را روی قرص‌ها بگیرید و نتیجه شمارش را در چند
-              لحظه ببینید. قرص شمار برای تکنسین‌هایی ساخته شده که به سرعت،
-              نظم و کنترل بیشتر در کار روزانه نیاز دارند.
+              Point your phone at the pills and get a suggested count in
+              seconds. BeshmarAI runs the model on your device, supports both
+              GPU and CPU strategies, and keeps the final decision in your
+              hands.
             </p>
 
             <div className="hero-actions-v3">
               <a className="button primary button-glow-v3" href={siteConfig.appUrl}>
-                شروع شمارش رایگان
-                <span aria-hidden="true">←</span>
+                Open the free app
+                <span aria-hidden="true">→</span>
               </a>
               <a className="button secondary" href="#how-it-works">
-                نحوه کار قرص شمار
+                See how it works
               </a>
             </div>
 
-            <div className="hero-trust-v3" aria-label="ویژگی‌های قابل استفاده قرص شمار">
-              <span>اپلیکیشن Android</span>
-              <span>Web App برای iPhone</span>
-              <span>رایگان و بدون ورود</span>
-              <span>نتیجه قابل بررسی</span>
+            <div className="hero-trust-v3" aria-label="Core product features">
+              <span>On-device inference</span>
+              <span>English + فارسی</span>
+              <span>No account</span>
+              <span>Installable PWA</span>
             </div>
           </div>
 
-          <div className="hero-visual-v3" aria-label="نمای نمونه شمارش قرص با قرص شمار">
+          <div className="hero-visual-v3" aria-label="BeshmarAI pill-counting preview">
             <div className="hero-orbit-v3" aria-hidden="true" />
             <div className="hero-image-v3">
               <Image
                 src="/images/hero-visual-v23.png"
-                alt="تکنسین داروخانه در حال شمارش قرص با دوربین موبایل و هوش مصنوعی قرص شمار"
+                alt="A pharmacy technician using BeshmarAI to count pills with a phone camera"
                 fill
                 priority
                 sizes="(max-width: 940px) 100vw, 48vw"
@@ -153,16 +144,16 @@ export default async function HomePage() {
             <div className="vision-status-v3">
               <span className="live-dot-v3" />
               <div>
-                <small>تحلیل هوشمند</small>
-                <strong>نتیجه آماده بررسی است</strong>
+                <small>On-device analysis</small>
+                <strong>Result ready for review</strong>
               </div>
             </div>
 
             <div className="result-card-v3">
               <div>
-                <small>نمایش نمونه</small>
-                <strong>۴۸</strong>
-                <span>قرص شناسایی‌شده</span>
+                <small>Example result</small>
+                <strong>48</strong>
+                <span>pills detected</span>
               </div>
               <div className="result-pills-v3" aria-hidden="true">
                 {Array.from({ length: 9 }).map((_, index) => (
@@ -174,35 +165,23 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="facts-bar-v3" aria-label="مشخصات اصلی محصول">
+      <section className="facts-bar-v3" aria-label="Product facts">
         <div className="container facts-grid-v3">
-          <div>
-            <strong>روی دستگاه</strong>
-            <span>بدون ارسال تصویر شمارش</span>
-          </div>
-          <div>
-            <strong>روی دستگاه</strong>
-            <span>بدون ارسال تصویر</span>
-          </div>
-          <div>
-            <strong>رایگان</strong>
-            <span>بدون حساب و پرداخت</span>
-          </div>
-          <div>
-            <strong>Android + iPhone</strong>
-            <span>اپلیکیشن و Web App</span>
-          </div>
+          <div><strong>Private</strong><span>Images stay on-device</span></div>
+          <div><strong>Adaptive</strong><span>GPU or CPU execution</span></div>
+          <div><strong>Free</strong><span>No sign-in or payment</span></div>
+          <div><strong>Cross-platform</strong><span>Mobile and desktop PWA</span></div>
         </div>
       </section>
 
       <section className="section-v3 steps-section-v3" id="how-it-works">
         <div className="container">
           <div className="section-heading-v3 centered-v3">
-            <span className="kicker-v3">ساده از اولین شمارش</span>
-            <h2>سه قدم تا یک نتیجه واضح و قابل بررسی</h2>
+            <span className="kicker-v3">Simple from the first count</span>
+            <h2>Three steps to a clear, reviewable result</h2>
             <p>
-              قرص شمار فرایند را کوتاه نگه می‌دارد تا تمرکز شما روی کار
-              داروخانه باقی بماند.
+              The workflow stays short so pharmacy professionals can focus on
+              verification rather than software complexity.
             </p>
           </div>
 
@@ -210,9 +189,7 @@ export default async function HomePage() {
             {steps.map((step) => (
               <article className="step-card-v3" key={step.number}>
                 <span className="step-number-v3">{step.number}</span>
-                <div className="step-icon-v3" aria-hidden="true">
-                  <span />
-                </div>
+                <div className="step-icon-v3" aria-hidden="true"><span /></div>
                 <h3>{step.title}</h3>
                 <p>{step.description}</p>
               </article>
@@ -224,25 +201,22 @@ export default async function HomePage() {
       <section className="section-v3 ai-showcase-v3" id="features">
         <div className="container ai-showcase-grid-v3">
           <div className="ai-showcase-copy-v3">
-            <span className="kicker-v3">هوش مصنوعی برای کار واقعی</span>
-            <h2>از تصویر دوربین تا یک نتیجه واضح و قابل بررسی</h2>
+            <span className="kicker-v3">AI designed for real devices</span>
+            <h2>Automatic performance, with expert controls when you need them</h2>
             <p>
-              قرص شمار با تمرکز بر شمارش قرص ساخته شده است؛ یک تجربه سریع،
-              روشن و حرفه‌ای که تکنسین می‌تواند نتیجه آن را ببیند و بررسی کند.
+              BeshmarAI profiles the device once and selects a stable execution
+              plan. Advanced users can explicitly prefer WebGPU or CPU and
+              reset the saved strategy at any time.
             </p>
 
             <ul className="benefit-list-v3">
               {aiBenefits.map((benefit) => (
-                <li key={benefit}>
-                  <span aria-hidden="true">✓</span>
-                  {benefit}
-                </li>
+                <li key={benefit}><span aria-hidden="true">✓</span>{benefit}</li>
               ))}
             </ul>
 
             <a className="text-link-v3" href={siteConfig.appUrl}>
-              تجربه قرص شمار
-              <span aria-hidden="true">←</span>
+              Try BeshmarAI <span aria-hidden="true">→</span>
             </a>
           </div>
 
@@ -250,7 +224,7 @@ export default async function HomePage() {
             <div className="ai-image-frame-v3">
               <Image
                 src="/images/on-device-ai-v23.png"
-                alt="نمای مفهومی هوش مصنوعی قرص شمار برای شمارش قرص با موبایل"
+                alt="On-device AI architecture for private pill counting"
                 fill
                 sizes="(max-width: 940px) 100vw, 46vw"
               />
@@ -258,8 +232,8 @@ export default async function HomePage() {
             <div className="ai-signal-v3 signal-one-v3" aria-hidden="true" />
             <div className="ai-signal-v3 signal-two-v3" aria-hidden="true" />
             <div className="ai-mini-card-v3">
-              <span>هوش مصنوعی تخصصی</span>
-              <strong>آماده برای جریان کاری داروخانه</strong>
+              <span>Automatic • WebGPU • CPU</span>
+              <strong>Choose the strategy in Settings</strong>
             </div>
           </div>
         </div>
@@ -268,237 +242,56 @@ export default async function HomePage() {
       <section className="section-v3 trust-section-v31" aria-labelledby="trust-title">
         <div className="container trust-grid-v31">
           <div className="trust-copy-v31">
-            <span className="kicker-v3">حریم خصوصی و تداوم کار</span>
-            <h2 id="trust-title">تصویر شمارش روی دستگاه می‌ماند</h2>
+            <span className="kicker-v3">Privacy by architecture</span>
+            <h2 id="trust-title">The counting image stays on your device</h2>
             <p>
-              مدل شمارش روی موبایل یا مرورگر شما اجرا می‌شود. برای inference،
-              تصویر قرص به هیچ Backend ارسال نمی‌شود و اجرای مدل،
-              ورود و دسترسی به سرور وابسته‌اند.
+              The public edition has no account, OTP, payment flow, private
+              backend, or image-upload inference endpoint. Application and model
+              files are delivered statically and run in the browser.
             </p>
             <div className="trust-points-v31">
-              <article>
-                <span aria-hidden="true">01</span>
-                <div>
-                  <strong>پردازش محلی</strong>
-                  <p>تصویر شمارش برای اجرای مدل به سرور ارسال نمی‌شود.</p>
-                </div>
-              </article>
-              <article>
-                <span aria-hidden="true">02</span>
-                <div>
-                  <strong>قابل استفاده آفلاین</strong>
-                  <p>پس از ذخیره‌شدن فایل‌های برنامه و مدل، اجرای محلی به اینترنت وابسته نیست.</p>
-                </div>
-              </article>
-              <article>
-                <span aria-hidden="true">03</span>
-                <div>
-                  <strong>ورود ماندگار</strong>
-                  <p>تا زمان خروج، نیازی به ورود دوباره در هر مراجعه نیست.</p>
-                </div>
-              </article>
+              <article><span aria-hidden="true">01</span><div><strong>Local inference</strong><p>Camera frames remain inside the browser session.</p></div></article>
+              <article><span aria-hidden="true">02</span><div><strong>Open public source</strong><p>The free edition can be audited on GitHub.</p></div></article>
+              <article><span aria-hidden="true">03</span><div><strong>Human review</strong><p>Every result is a suggestion that must be confirmed.</p></div></article>
             </div>
           </div>
-
-          <div className="trust-visual-v31" aria-hidden="true">
-            <div className="trust-device-v31">
-              <span className="trust-device-label-v31">ON-DEVICE AI</span>
-              <div className="trust-shield-v31">✓</div>
-              <strong>تصویر روی دستگاه</strong>
-              <small>حساب و مجوز دسترسی با سرور</small>
-            </div>
-            <span className="trust-orbit-v31 orbit-a-v31" />
-            <span className="trust-orbit-v31 orbit-b-v31" />
+          <div className="privacy-panel-v31">
+            <span className="privacy-orbit-v31" aria-hidden="true" />
+            <strong>On-device only</strong>
+            <p>No image upload for model inference</p>
+            <Link className="text-link-v3" href="/privacy">Read the privacy policy →</Link>
           </div>
         </div>
       </section>
 
-      <section className="section-v3 bento-section-v3">
+      <section className="section-v3 articles-section-v3">
         <div className="container">
-          <div className="section-heading-v3 split-heading-v3">
+          <div className="section-heading-v3 section-heading-row-v3">
             <div>
-              <span className="kicker-v3">طراحی‌شده برای تکنسین‌ها</span>
-              <h2>هر چیزی که برای شروع سریع نیاز دارید</h2>
+              <span className="kicker-v3">Practical pharmacy insights</span>
+              <h2>Counting, workflow, safety, and responsible medicine use</h2>
             </div>
-            <p>
-              بدون مسیر پیچیده؛ وارد شوید، دوربین را آماده کنید و شمارش را
-              شروع کنید.
-            </p>
+            <Link className="text-link-v3" href="/blog">View all articles →</Link>
           </div>
-
-          <div className="bento-grid-v3">
-            <article className="bento-card-v3 bento-main-v3">
-              <div className="bento-copy-v3">
-                <span className="bento-label-v3">تجربه موبایل‌محور</span>
-                <h3>روی Android و iPhone در دسترس شماست</h3>
-                <p>
-                  اپلیکیشن اختصاصی Android و Web App برای iPhone، تا ابزار
-                  شمارش همیشه در دسترس تکنسین باشد.
-                </p>
-                <div className="platform-tags-v3">
-                  <span>Android App</span>
-                  <span>iPhone Web App</span>
-                </div>
-              </div>
-              <div className="phone-mock-v3" aria-hidden="true">
-                <div className="phone-speaker-v3" />
-                <div className="phone-screen-v3">
-                  <span className="phone-ai-v3">AI</span>
-                  <strong>شمارش آماده است</strong>
-                  <div className="phone-count-v3">۴۸</div>
-                  <div className="phone-button-v3">بررسی نتیجه</div>
-                </div>
-              </div>
-            </article>
-
-            <article className="bento-card-v3 bento-free-v3">
-              <span className="bento-icon-v3" aria-hidden="true">✦</span>
-              <strong>رایگان و عمومی</strong>
-              <h3>قبل از انتخاب، تجربه‌اش کنید</h3>
-              <p>بدون ورود، شماره موبایل، پرداخت یا محدودیت زمانی شروع کنید.</p>
-            </article>
-
-            <article className="bento-card-v3 bento-control-v3">
-              <span className="bento-icon-v3" aria-hidden="true">◎</span>
-              <strong>نتیجه قابل بررسی</strong>
-              <h3>کنترل نهایی همچنان با شماست</h3>
-              <p>عدد پیشنهادی و وضعیت تشخیص را ببینید و سپس ادامه دهید.</p>
-            </article>
+          <div className="articles-grid">
+            {articles.map((article) => (
+              <ArticleCard article={article} key={article.id} locale="en" />
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="section-v3 pricing-preview-v31" aria-labelledby="pricing-preview-title">
-        <div className="container pricing-preview-card-v31">
-          <div>
-            <span className="kicker-v3">نسخه عمومی قرص شمار</span>
-            <h2 id="pricing-preview-title">رایگان، مستقل و بدون نیاز به حساب کاربری</h2>
-            <p>
-              دوره‌های ماهانه، شش‌ماهه و سالانه برای زمان فعال‌شدن فروش آماده
-              شده است و هیچ سفارش، پرداخت یا حسابی ایجاد نمی‌کند.
-            </p>
+      <section className="section-v3 faq-section-v3">
+        <div className="container faq-grid-v3">
+          <div className="section-heading-v3">
+            <span className="kicker-v3">Frequently asked questions</span>
+            <h2>What to know before your first count</h2>
+            <p>Review the safety guide and repeat any count that looks uncertain.</p>
           </div>
-          <div className="pricing-preview-actions-v31">
-            <Link className="button secondary" href="/pricing">
-              مشاهده توضیحات نسخه رایگان
-            </Link>
-            <a className="button primary" href={siteConfig.appUrl}>
-              شروع رایگان
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-v3 home-campaign-v4" aria-labelledby="home-campaign-title">
-        <div className="container home-campaign-card-v4">
-          <div className="home-campaign-copy-v4">
-            <span className="home-campaign-label-v4">پویش هم‌اندازه نیاز</span>
-            <h2 id="home-campaign-title">
-              دارو به اندازه نیاز؛
-              <span>بسته‌بندی به اندازه ضرورت.</span>
-            </h2>
-            <p>
-              یک گفت‌وگوی عمومی برای کاهش داروی بلااستفاده، بسته‌بندی غیرضروری
-              و هزینه‌های پنهان؛ بدون کاهش ایمنی، کیفیت یا درمان کامل.
-            </p>
-            <div className="home-campaign-actions-v4">
-              <Link className="button campaign-primary-v4" href="/campaign">
-                ورود به پویش
-                <span aria-hidden="true">←</span>
-              </Link>
-              <Link className="text-link-v3" href="/category/responsible-medicine-use">
-                مطالعه مطالب مرتبط
-                <span aria-hidden="true">←</span>
-              </Link>
-            </div>
-          </div>
-          <div className="home-campaign-poster-v4" aria-hidden="true">
-            <small>#هم_اندازه_نیاز</small>
-            <strong>کمتر<br />هدر بدهیم</strong>
-            <span>بهتر درمان کنیم</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-v3 magazine-section-v3">
-        <div className="container">
-          <div className="section-heading-v3 split-heading-v3">
-            <div>
-              <span className="kicker-v3">مجله قرص شمار</span>
-              <h2>راهنماهای کاربردی برای داروخانه حرفه‌ای</h2>
-            </div>
-            <Link className="button secondary" href="/blog">
-              مشاهده همه مقاله‌ها
-            </Link>
-          </div>
-
-          <div className="magazine-grid-v3">
-            {featuredArticle ? (
-              <article className="featured-article-v3">
-                <Link
-                  className="featured-image-v3"
-                  href={`/blog/${featuredArticle.slug}`}
-                  aria-label={featuredArticle.title}
-                >
-                  <Image
-                    src={featuredArticle.coverImage}
-                    alt={featuredArticle.coverAlt}
-                    fill
-                    sizes="(max-width: 940px) 100vw, 58vw"
-                  />
-                  <span className="featured-category-v3">
-                    {featuredArticle.category.name}
-                  </span>
-                </Link>
-                <div className="featured-copy-v3">
-                  <span>
-                    {featuredArticle.readingMinutes.toLocaleString('fa-IR')} دقیقه مطالعه
-                  </span>
-                  <h3>
-                    <Link href={`/blog/${featuredArticle.slug}`}>
-                      {featuredArticle.title}
-                    </Link>
-                  </h3>
-                  <p>{featuredArticle.excerpt}</p>
-                  <Link className="text-link-v3" href={`/blog/${featuredArticle.slug}`}>
-                    مطالعه مقاله
-                    <span aria-hidden="true">←</span>
-                  </Link>
-                </div>
-              </article>
-            ) : null}
-
-            <div className="magazine-side-v3">
-              {compactArticles.map((article) => (
-                <ArticleCard article={article} key={article.id} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-v3 faq-section-v31" aria-labelledby="faq-title">
-        <div className="container faq-grid-v31">
-          <div className="faq-heading-v31">
-            <span className="kicker-v3">پرسش‌های پرتکرار</span>
-            <h2 id="faq-title">پیش از اولین شمارش چه چیزهایی بدانم؟</h2>
-            <p>
-              پاسخ‌های کوتاه درباره حریم خصوصی، ورود، استفاده آفلاین و وضعیت
-              اشتراک.
-            </p>
-            <Link className="text-link-v3" href="/support">
-              ارتباط با پشتیبانی
-              <span aria-hidden="true">←</span>
-            </Link>
-          </div>
-
-          <div className="faq-list-v31">
-            {faqItems.map((item, index) => (
-              <details className="faq-item-v31" key={item.question}>
-                <summary>
-                  <span>{(index + 1).toLocaleString('fa-IR')}</span>
-                  {item.question}
-                </summary>
+          <div className="faq-list-v3">
+            {faqItems.map((item) => (
+              <details key={item.question}>
+                <summary>{item.question}</summary>
                 <p>{item.answer}</p>
               </details>
             ))}
@@ -506,21 +299,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section-v3 final-cta-section-v3">
-        <div className="container final-cta-v3">
-          <div className="final-cta-glow-v3" aria-hidden="true" />
+      <section className="final-cta-v3">
+        <div className="container final-cta-inner-v3">
           <div>
-            <span className="kicker-v3">آماده شروع هستید؟</span>
-            <h2>شمارش قرص را با یک تجربه سریع‌تر و حرفه‌ای‌تر شروع کنید</h2>
-            <p>
-              نسخه رایگان در اختیار شماست تا قرص شمار را در جریان
-              کاری واقعی خود امتحان کنید.
-            </p>
+            <span className="kicker-v3">Free public edition</span>
+            <h2>Ready to test a private AI pill counter?</h2>
+            <p>No account. No subscription. English and Persian included.</p>
           </div>
-          <a className="button primary button-glow-v3" href={siteConfig.appUrl}>
-            شروع شمارش رایگان
-            <span aria-hidden="true">←</span>
-          </a>
+          <div className="hero-actions-v3">
+            <a className="button primary button-glow-v3" href={siteConfig.appUrl}>Open the app →</a>
+            <Link className="button secondary" href="/safety">Read the safety guide</Link>
+          </div>
         </div>
       </section>
     </main>

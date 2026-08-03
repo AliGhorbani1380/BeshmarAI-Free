@@ -1,14 +1,22 @@
-# Publication Status
+# Publication status
 
-Stage R11 validation passed.
+BeshmarAI Free bilingual refresh prepared for validation.
 
-- Public boundary and model package validated
-- TypeScript typecheck passed
-- Static website and PWA build passed
-- Large ONNX Runtime WASM files are excluded from precache
-- WASM runtime CacheFirst strategy is enabled
-- GitHub Pages deploy tree was validated
-- Build artifacts and node_modules were removed
-- Final secret scan passed
+## Included
 
-Ready for public repository creation and GitHub Pages publication.
+- English-first website at `/`
+- Persian website at `/fa/`
+- English-first bilingual PWA at `/app/`
+- Automatic, WebGPU, and CPU/WebAssembly strategy preferences
+- Chunked public model package
+- Static GitHub Pages workflow
+- English and Persian README files
+
+## Required before the next public push
+
+- clean dependency installation
+- TypeScript typecheck for site and app
+- static site and PWA build
+- public-boundary and model-package verification
+- browser smoke test
+- final secret scan

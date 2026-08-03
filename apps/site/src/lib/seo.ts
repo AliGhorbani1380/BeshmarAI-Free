@@ -1,13 +1,16 @@
+import type { ContentLocale } from './content'
 import type { Article } from './content/types'
 import { siteConfig } from './site'
+
+const isFa = (locale: ContentLocale) => locale === 'fa'
 
 export function organizationJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     '@id': `${siteConfig.url}/#organization`,
-    name: siteConfig.persianName,
-    alternateName: siteConfig.englishName,
+    name: siteConfig.englishName,
+    alternateName: siteConfig.persianName,
     description: siteConfig.description,
     url: siteConfig.url,
     logo: {
@@ -16,17 +19,18 @@ export function organizationJsonLd() {
       contentUrl: `${siteConfig.url}/brand/site/site-icon-512x512.png`,
     },
     email: siteConfig.supportEmail,
+    sameAs: [siteConfig.githubUrl],
     contactPoint: {
       '@type': 'ContactPoint',
       email: siteConfig.supportEmail,
       contactType: 'customer support',
-      availableLanguage: ['fa'],
+      availableLanguage: ['English', 'Persian'],
     },
     knowsAbout: [
-      'شمارش قرص با هوش مصنوعی',
-      'فناوری داروخانه',
-      'مصرف مسئولانه دارو',
-      'پسماند دارویی',
+      'AI pill counting',
+      'On-device artificial intelligence',
+      'Pharmacy technology',
+      'Responsible medicine use',
     ],
   }
 }
@@ -36,58 +40,58 @@ export function websiteJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': `${siteConfig.url}/#website`,
-    name: siteConfig.name,
-    alternateName: siteConfig.englishName,
+    name: siteConfig.englishName,
+    alternateName: siteConfig.persianName,
     description: siteConfig.description,
     url: siteConfig.url,
-    inLanguage: 'fa-IR',
+    inLanguage: ['en', 'fa'],
     publisher: {
       '@id': `${siteConfig.url}/#organization`,
     },
   }
 }
 
-
-export function campaignJsonLd() {
+export function campaignJsonLd(locale: ContentLocale = 'en') {
+  const fa = isFa(locale)
   return {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'پویش هم‌اندازه نیاز',
-    alternateName: 'دارو به اندازه نیاز؛ بسته‌بندی به اندازه ضرورت',
-    description:
-      'پویش عمومی برای کاهش داروی بلااستفاده و بسته‌بندی غیرضروری با حفظ ایمنی، کیفیت و نسخه پزشک.',
-    url: `${siteConfig.url}/campaign`,
-    inLanguage: 'fa-IR',
+    name: fa ? 'پویش هم‌اندازه نیاز' : 'Right-Sized Medicine Campaign',
+    alternateName: fa
+      ? 'دارو به اندازه نیاز؛ بسته‌بندی به اندازه ضرورت'
+      : 'Medicine matched to need; packaging matched to necessity',
+    description: fa
+      ? 'پویش عمومی برای کاهش داروی بلااستفاده و بسته‌بندی غیرضروری با حفظ ایمنی، کیفیت و نسخه پزشک.'
+      : 'A public campaign to reduce unused medicine and unnecessary packaging while preserving prescription accuracy, safety, quality, authenticity, and traceability.',
+    url: fa ? siteConfig.campaignUrlFa : siteConfig.campaignUrl,
+    inLanguage: fa ? 'fa-IR' : 'en',
     isAccessibleForFree: true,
     datePublished: '2026-07-31T00:00:00+03:30',
-    dateModified: '2026-07-31T00:00:00+03:30',
+    dateModified: '2026-08-03T00:00:00+03:30',
     publisher: {
-      '@type': 'Organization',
-      name: siteConfig.name,
-      url: siteConfig.url,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${siteConfig.url}/brand/site/site-icon-512x512.png`,
-      },
+      '@id': `${siteConfig.url}/#organization`,
     },
-    about: [
-      { '@type': 'Thing', name: 'مصرف منطقی دارو' },
-      { '@type': 'Thing', name: 'پسماند دارویی' },
-      { '@type': 'Thing', name: 'بسته‌بندی پایدار دارو' },
-      { '@type': 'Thing', name: 'بازگشت امن داروی بلااستفاده' },
-    ],
-    keywords: [
-      'داروی اضافه',
-      'پسماند دارویی',
-      'بسته بندی دارو',
-      'مصرف منطقی دارو',
-      'دارو به اندازه نیاز',
-    ],
+    about: fa
+      ? [
+          { '@type': 'Thing', name: 'مصرف منطقی دارو' },
+          { '@type': 'Thing', name: 'پسماند دارویی' },
+          { '@type': 'Thing', name: 'بسته‌بندی پایدار دارو' },
+        ]
+      : [
+          { '@type': 'Thing', name: 'Responsible medicine use' },
+          { '@type': 'Thing', name: 'Pharmaceutical waste' },
+          { '@type': 'Thing', name: 'Sustainable medicine packaging' },
+        ],
   }
 }
 
-export function articleJsonLd(article: Article) {
-  const articleUrl = `${siteConfig.url}/blog/${article.slug}`
+export function articleJsonLd(
+  article: Article,
+  locale: ContentLocale = 'en',
+) {
+  const fa = isFa(locale)
+  const prefix = fa ? '/fa' : ''
+  const articleUrl = `${siteConfig.url}${prefix}/blog/${article.slug}`
 
   return {
     '@context': 'https://schema.org',
@@ -101,12 +105,12 @@ export function articleJsonLd(article: Article) {
     ],
     datePublished: article.publishedAt,
     dateModified: article.updatedAt,
-    inLanguage: 'fa-IR',
+    inLanguage: fa ? 'fa-IR' : 'en',
     mainEntityOfPage: articleUrl,
     author: {
       '@type': 'Organization',
       name: article.author.name,
-      url: `${siteConfig.url}/about`,
+      url: `${siteConfig.url}${prefix}/about`,
     },
     ...(article.reviewer
       ? {
@@ -118,12 +122,7 @@ export function articleJsonLd(article: Article) {
         }
       : {}),
     publisher: {
-      '@type': 'Organization',
-      name: siteConfig.name,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${siteConfig.url}/brand/site/site-icon-512x512.png`,
-      },
+      '@id': `${siteConfig.url}/#organization`,
     },
     ...(article.sources?.length
       ? {

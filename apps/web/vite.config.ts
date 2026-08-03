@@ -86,12 +86,12 @@ export default defineConfig({
 
       manifest: {
         id: '/app/',
-        name: 'قرص‌شمار',
-        short_name: 'قرص‌شمار',
+        name: 'BeshmarAI Pill Counter',
+        short_name: 'BeshmarAI Pill Counter',
         description:
-          'شمارش رایگان قرص با هوش مصنوعی روی دستگاه',
-        lang: 'fa',
-        dir: 'rtl',
+          'Free on-device AI pill counting with English and Persian interfaces',
+        lang: 'en',
+        dir: 'ltr',
         start_url: '/app/',
         scope: '/app/',
         display: 'standalone',

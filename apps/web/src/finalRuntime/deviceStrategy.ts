@@ -199,8 +199,31 @@ export function readDeviceStrategy():
       return null
     }
 
-    return parsed as
-      DeviceStrategy
+    const strategy =
+      parsed as
+        DeviceStrategy
+
+    const preference =
+      readDeviceStrategyPreference()
+
+    return {
+      ...strategy,
+      provider:
+        preference.provider ===
+          'auto'
+          ? strategy.provider
+          : preference.provider,
+      wasmThreads:
+        preference.wasmThreads ===
+          'auto'
+          ? strategy.wasmThreads
+          : preference.wasmThreads,
+      previewThreads:
+        preference.wasmThreads ===
+          'auto'
+          ? strategy.previewThreads
+          : preference.wasmThreads,
+    }
   } catch {
     return null
   }
@@ -402,5 +425,116 @@ export function clearDeviceStrategy():
     )
   } catch {
     // Best effort.
+  }
+}
+
+
+// BESHMARAI_PUBLIC_RUNTIME_PREFERENCE_V1
+
+export type DeviceStrategyPreference = {
+  version: 1
+  provider:
+    | 'auto'
+    | 'webgpu'
+    | 'wasm'
+  wasmThreads:
+    | 'auto'
+    | 1
+    | 2
+    | 4
+}
+
+const preferenceStorageKey =
+  'beshmarai_public_runtime_preference_v1'
+
+export const DEFAULT_DEVICE_STRATEGY_PREFERENCE:
+  DeviceStrategyPreference = {
+    version: 1,
+    provider: 'auto',
+    wasmThreads: 'auto',
+  }
+
+function normalizeDeviceStrategyPreference(
+  value:
+    Partial<DeviceStrategyPreference> | null,
+): DeviceStrategyPreference {
+  const provider =
+    value?.provider === 'webgpu' ||
+    value?.provider === 'wasm'
+      ? value.provider
+      : 'auto'
+
+  const wasmThreads =
+    value?.wasmThreads === 1 ||
+    value?.wasmThreads === 2 ||
+    value?.wasmThreads === 4
+      ? value.wasmThreads
+      : 'auto'
+
+  return {
+    version: 1,
+    provider,
+    wasmThreads,
+  }
+}
+
+export function readDeviceStrategyPreference():
+  DeviceStrategyPreference {
+  try {
+    const raw =
+      window.localStorage.getItem(
+        preferenceStorageKey,
+      )
+
+    if (!raw) {
+      return {
+        ...DEFAULT_DEVICE_STRATEGY_PREFERENCE,
+      }
+    }
+
+    return normalizeDeviceStrategyPreference(
+      JSON.parse(raw) as
+        Partial<DeviceStrategyPreference>,
+    )
+  } catch {
+    return {
+      ...DEFAULT_DEVICE_STRATEGY_PREFERENCE,
+    }
+  }
+}
+
+export function writeDeviceStrategyPreference(
+  value:
+    Partial<DeviceStrategyPreference>,
+): DeviceStrategyPreference {
+  const normalized =
+    normalizeDeviceStrategyPreference(
+      value,
+    )
+
+  try {
+    window.localStorage.setItem(
+      preferenceStorageKey,
+      JSON.stringify(normalized),
+    )
+  } catch {
+    // Preference persistence is best effort.
+  }
+
+  return normalized
+}
+
+export function resetDeviceStrategyPreference():
+  DeviceStrategyPreference {
+  try {
+    window.localStorage.removeItem(
+      preferenceStorageKey,
+    )
+  } catch {
+    // Best effort.
+  }
+
+  return {
+    ...DEFAULT_DEVICE_STRATEGY_PREFERENCE,
   }
 }

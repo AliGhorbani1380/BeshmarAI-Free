@@ -1,62 +1,45 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'قوانین استفاده',
-  description:
-    'شرایط استفاده از نسخه عمومی و رایگان ابزار کمکی شمارش قرص.',
+  title: 'Terms of Use',
+  description: 'Terms for the free public BeshmarAI pill-counting edition.',
   alternates: {
     canonical: '/terms/',
+    languages: { en: '/terms/', fa: '/fa/terms/' },
   },
 }
 
 export default function TermsPage() {
   return (
-    <main id="main">
+    <main id="main" className="locale-en">
       <section className="page-hero">
         <div className="container narrow">
-          <span className="badge"><i /> قوانین استفاده</span>
-          <h1>ابزار کمکی؛ نه جایگزین تأیید انسانی</h1>
-          <p>
-            استفاده از برنامه به معنی پذیرش محدودیت‌های زیر است.
-          </p>
+          <span className="badge"><i /> Terms</span>
+          <h1>Use BeshmarAI as an assistive counting tool</h1>
+          <p>Using the public edition means accepting the limitations below.</p>
         </div>
       </section>
-
       <section className="section">
         <div className="container narrow article-content">
-          <h2>ماهیت سرویس</h2>
+          <h2>No guarantee of a perfect count</h2>
           <p>
-            قرص شمار یک ابزار نرم‌افزاری برای ارائه نتیجه پیشنهادی شمارش
-            از روی تصویر است. این برنامه ابزار تشخیص دارو، تجویز، تعیین
-            دوز، تأیید اصالت یا تصمیم‌گیری پزشکی نیست.
+            Computer vision can be affected by overlap, lighting, focus,
+            reflections, camera hardware, browser behavior, and device performance.
           </p>
-
-          <h2>الزام بازبینی</h2>
+          <h2>User responsibility</h2>
           <p>
-            کاربر باید نتیجه را به‌صورت مستقل بررسی کند. در امور دارویی،
-            تحویل دارو، بسته‌بندی، انبارداری یا هر کاربرد حساس، خروجی
-            هوش مصنوعی نباید بدون کنترل انسانی استفاده شود.
+            You must review every result and comply with professional, legal,
+            safety, inventory, dispensing, and documentation requirements.
           </p>
-
-          <h2>عدم تضمین دقت</h2>
+          <h2>Availability</h2>
           <p>
-            نور، زاویه، کیفیت دوربین، هم‌پوشانی، قرص شکسته، پس‌زمینه،
-            محدودیت سخت‌افزار و خطای مدل می‌توانند نتیجه را تغییر دهند.
-            هیچ دقت صددرصدی تضمین نمی‌شود.
+            The free service may change, be interrupted, or stop supporting a
+            device or browser. Cached files do not guarantee permanent offline availability.
           </p>
-
-          <h2>نسخه عمومی</h2>
+          <h2>Public source and rights</h2>
           <p>
-            نسخه عمومی رایگان است و حساب، OTP، سفارش، پرداخت یا اشتراک
-            ایجاد نمی‌کند. عملکرد آفلاین به ذخیره موفق فایل‌ها و امکانات
-            مرورگر و دستگاه بستگی دارد.
-          </p>
-
-          <h2>استفاده ممنوع</h2>
-          <p>
-            استفاده برای فریب، جعل نتیجه، دورزدن مقررات، تشخیص نوع یا دوز
-            دارو، مواد غیرقانونی یا تصمیمی که خطای آن می‌تواند آسیب جانی،
-            درمانی، مالی یا قانونی ایجاد کند ممنوع است.
+            Public visibility of source code does not grant rights beyond the
+            license and notices included in the repository.
           </p>
         </div>
       </section>

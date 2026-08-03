@@ -2,6 +2,7 @@ import { getArticles } from '@/src/lib/content'
 import { siteConfig } from '@/src/lib/site'
 
 export const dynamic = 'force-static'
+
 function escapeXml(value: string): string {
   return value
     .replaceAll('&', '&amp;')
@@ -12,19 +13,18 @@ function escapeXml(value: string): string {
 }
 
 export async function GET() {
-  // BESHMARAI_SITE_EDITORIAL_SEO_COMPLETION_V2_2
-  const articles = await getArticles()
-
+  const articles = await getArticles('en')
   const lastBuildDate = articles.reduce(
     (latest, article) =>
-      new Date(article.updatedAt) > latest ? new Date(article.updatedAt) : latest,
-    new Date('2026-07-20T08:00:00+03:30'),
+      new Date(article.updatedAt) > latest
+        ? new Date(article.updatedAt)
+        : latest,
+    new Date('2026-08-03T00:00:00+03:30'),
   )
 
   const items = articles
     .map((article) => {
       const url = `${siteConfig.url}/blog/${article.slug}`
-
       return [
         '<item>',
         `<title>${escapeXml(article.title)}</title>`,
@@ -42,14 +42,12 @@ export async function GET() {
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<rss version="2.0">',
     '<channel>',
-    `<title>${escapeXml(siteConfig.name)} | فناوری داروخانه و مصرف مسئولانه</title>`,
+    `<title>${escapeXml(siteConfig.englishName)} | Pharmacy technology insights</title>`,
     `<link>${escapeXml(siteConfig.url)}</link>`,
-    '<description>راهنماهای شمارش قرص، فناوری داروخانه، پسماند دارویی و مصرف مسئولانه دارو</description>',
-    '<language>fa-IR</language>',
+    `<description>${escapeXml(siteConfig.description)}</description>`,
+    '<language>en</language>',
     `<lastBuildDate>${lastBuildDate.toUTCString()}</lastBuildDate>`,
-    `<atom:link xmlns:atom="http://www.w3.org/2005/Atom" href="${escapeXml(
-      `${siteConfig.url}/feed.xml`,
-    )}" rel="self" type="application/rss+xml" />`,
+    `<atom:link xmlns:atom="http://www.w3.org/2005/Atom" href="${escapeXml(`${siteConfig.url}/feed.xml`)}" rel="self" type="application/rss+xml" />`,
     items,
     '</channel>',
     '</rss>',
@@ -58,8 +56,7 @@ export async function GET() {
   return new Response(xml, {
     headers: {
       'Content-Type': 'application/rss+xml; charset=utf-8',
-      'Cache-Control':
-        'public, max-age=0, s-maxage=900, stale-while-revalidate=86400',
+      'Cache-Control': 'public, max-age=0, s-maxage=900, stale-while-revalidate=86400',
     },
   })
 }

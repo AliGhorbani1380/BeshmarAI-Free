@@ -22,9 +22,17 @@ import {
   type FinalAccurateRuntimeSettings,
 } from './ml/finalAccurateModel'
 import {
+  clearDeviceStrategy,
+  clearFinalRuntimePlanHistory,
+  ensureDeviceStrategyOnce,
   getFinalRuntimeDiagnostics,
+  readDeviceStrategy,
+  readDeviceStrategyPreference,
   releaseFinalRuntime,
+  resetDeviceStrategyPreference,
   runFinalAccurateModel,
+  writeDeviceStrategyPreference,
+  type DeviceStrategyPreference,
 } from './finalRuntime'
 // BESHMARAI_FINAL_RUNTIME_CLEAN_ROOM_APP_V3
 import './styles.css'
@@ -1496,6 +1504,25 @@ function SettingsScreen({
         getFinalAccurateRuntimeSettings(),
     )
 
+  const [
+    runtimePreference,
+    setRuntimePreference,
+  ] = useState<DeviceStrategyPreference>(
+    () =>
+      readDeviceStrategyPreference(),
+  )
+
+  const [
+    effectiveDeviceStrategy,
+    setEffectiveDeviceStrategy,
+  ] = useState(
+    () =>
+      readDeviceStrategy(),
+  )
+
+  const [runtimePreferenceBusy, setRuntimePreferenceBusy] =
+    useState(false)
+
   const [settingsMessage, setSettingsMessage] =
     useState(
       'تنظیمات به‌صورت خودکار ذخیره می‌شوند.',
@@ -1632,6 +1659,71 @@ function SettingsScreen({
     )
   }
 
+  async function applyRuntimePreference(
+    next:
+      DeviceStrategyPreference,
+  ) {
+    if (runtimePreferenceBusy) {
+      return
+    }
+
+    setRuntimePreferenceBusy(true)
+
+    const saved =
+      writeDeviceStrategyPreference(
+        next,
+      )
+
+    setRuntimePreference(saved)
+    setSettingsMessage(
+      'استراتژی اجرا ذخیره شد؛ در حال آماده‌سازی دوباره موتور شمارش...',
+    )
+
+    try {
+      await releaseFinalRuntime(
+        'user-runtime-preference-change',
+      )
+
+      clearFinalRuntimePlanHistory()
+      clearDeviceStrategy()
+
+      const strategy =
+        await ensureDeviceStrategyOnce()
+
+      setEffectiveDeviceStrategy(
+        readDeviceStrategy() ??
+          strategy,
+      )
+
+      setSettingsMessage(
+        saved.provider === 'webgpu'
+          ? 'حالت GPU ذخیره شد. در صورت ناسازگاری، برنامه به‌صورت خودکار از CPU استفاده می‌کند.'
+          : saved.provider === 'wasm'
+            ? 'حالت CPU ذخیره شد و از شمارش دقیق بعدی اعمال می‌شود.'
+            : 'انتخاب خودکار ذخیره شد و بهترین موتور پایدار این دستگاه دوباره انتخاب شد.',
+      )
+    } catch {
+      setEffectiveDeviceStrategy(
+        readDeviceStrategy(),
+      )
+
+      setSettingsMessage(
+        'تنظیمات ذخیره شد. موتور جدید هنگام شمارش دقیق بعدی آماده می‌شود.',
+      )
+    } finally {
+      setRuntimePreferenceBusy(false)
+    }
+  }
+
+  async function resetRuntimePreference() {
+    const defaults =
+      resetDeviceStrategyPreference()
+
+    await applyRuntimePreference(
+      defaults,
+    )
+  }
+
   return (
     <main
       className="settings-shell"
@@ -1734,6 +1826,127 @@ function SettingsScreen({
             onClick={redetectAutomaticCamera}
           >
             تشخیص دوباره لنز اصلی
+          </button>
+        </section>
+
+        <section className="settings-card">
+          <div className="settings-card-heading">
+            <span aria-hidden="true">◈</span>
+            <div>
+              <strong>استراتژی اجرای هوش مصنوعی</strong>
+              <small>انتخاب خودکار، GPU یا CPU</small>
+            </div>
+          </div>
+
+          <label
+            className="settings-field-label"
+            htmlFor="beshmarai-runtime-provider"
+          >
+            موتور شمارش دقیق
+          </label>
+
+          <select
+            id="beshmarai-runtime-provider"
+            className="settings-select"
+            value={runtimePreference.provider}
+            disabled={runtimePreferenceBusy}
+            onChange={(event) => {
+              const provider =
+                event.currentTarget.value as
+                  DeviceStrategyPreference['provider']
+
+              void applyRuntimePreference({
+                ...runtimePreference,
+                provider,
+              })
+            }}
+          >
+            <option value="auto">
+              انتخاب خودکار پیشنهادی
+            </option>
+            <option value="webgpu">
+              GPU — WebGPU با بازگشت امن به CPU
+            </option>
+            <option value="wasm">
+              CPU — WebAssembly
+            </option>
+          </select>
+
+          <label
+            className="settings-field-label"
+            htmlFor="beshmarai-runtime-threads"
+          >
+            تعداد رشته‌های CPU
+          </label>
+
+          <select
+            id="beshmarai-runtime-threads"
+            className="settings-select"
+            value={runtimePreference.wasmThreads}
+            disabled={
+              runtimePreferenceBusy ||
+              runtimePreference.provider ===
+                'webgpu'
+            }
+            onChange={(event) => {
+              const rawValue =
+                event.currentTarget.value
+
+              const wasmThreads:
+                DeviceStrategyPreference['wasmThreads'] =
+                rawValue === '1' ||
+                rawValue === '2' ||
+                rawValue === '4'
+                  ? Number(rawValue) as
+                      1 | 2 | 4
+                  : 'auto'
+
+              void applyRuntimePreference({
+                ...runtimePreference,
+                wasmThreads,
+              })
+            }}
+          >
+            <option value="auto">
+              انتخاب خودکار
+            </option>
+            <option value="1">
+              ۱ رشته — پایدارترین
+            </option>
+            <option value="2">
+              ۲ رشته — متعادل
+            </option>
+            <option value="4">
+              ۴ رشته — سریع برای دستگاه قوی
+            </option>
+          </select>
+
+          <p className="settings-help-text">
+            حالت خودکار توان دستگاه را یک‌بار می‌سنجد و نتیجه را ذخیره می‌کند. حالت GPU سریع‌تر است، اما در صورت ناسازگاری به مسیر امن CPU برمی‌گردد.
+          </p>
+
+          <p className="settings-detected-camera">
+            موتور مؤثر فعلی:
+            {' '}
+            <strong>
+              {effectiveDeviceStrategy
+                ? effectiveDeviceStrategy.provider ===
+                    'webgpu'
+                  ? 'WebGPU'
+                  : `CPU / WASM — ${effectiveDeviceStrategy.wasmThreads.toLocaleString('fa-IR')} رشته`
+                : 'هنوز سنجیده نشده'}
+            </strong>
+          </p>
+
+          <button
+            className="settings-secondary-button"
+            type="button"
+            disabled={runtimePreferenceBusy}
+            onClick={() => {
+              void resetRuntimePreference()
+            }}
+          >
+            سنجش دوباره و انتخاب خودکار
           </button>
         </section>
 

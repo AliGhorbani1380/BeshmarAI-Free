@@ -11,6 +11,7 @@ import {
 } from './modelRegistry'
 import {
   readDeviceStrategy,
+  readDeviceStrategyPreference,
   type DeviceStrategy,
 } from './deviceStrategy'
 
@@ -216,6 +217,9 @@ export function selectFinalRuntimePlans(
   const storedStrategy =
     readDeviceStrategy()
 
+  const preference =
+    readDeviceStrategyPreference()
+
   if (storedStrategy) {
     if (
       storedStrategy.provider ===
@@ -258,7 +262,9 @@ export function selectFinalRuntimePlans(
   }
 
   const webGpu =
-    storedStrategy
+    storedStrategy ||
+    preference.provider ===
+      'wasm'
       ? null
       : webGpuPlan(
           capabilities,
@@ -271,9 +277,37 @@ export function selectFinalRuntimePlans(
   }
 
   if (!storedStrategy) {
+    const preferredThreads =
+      preference.wasmThreads ===
+        'auto'
+        ? supportedWasmThreads(
+            capabilities,
+          )
+        : [
+            preference.wasmThreads,
+            1,
+          ].filter(
+            (
+              value,
+              index,
+              values,
+            ): value is 1 | 2 | 4 =>
+              (
+                value === 1 ||
+                value === 2 ||
+                value === 4
+              ) &&
+              values.indexOf(value) ===
+                index,
+          )
+
     candidates.push(
-      ...supportedWasmThreads(capabilities).map(
-        (threads) => wasmPlan(capabilities, threads),
+      ...preferredThreads.map(
+        (threads) =>
+          wasmPlan(
+            capabilities,
+            threads,
+          ),
       ),
     )
   }

@@ -7,6 +7,7 @@ import './globals.css'
 import { Footer } from '@/src/components/Footer'
 import { Header } from '@/src/components/Header'
 import { JsonLd } from '@/src/components/JsonLd'
+import { LocaleSkipLink } from '@/src/components/LocaleSkipLink'
 import { organizationJsonLd, websiteJsonLd } from '@/src/lib/seo'
 import { siteConfig } from '@/src/lib/site'
 
@@ -15,35 +16,33 @@ const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: 'قرص شمار | BeshmarAI — شمارش قرص با هوش مصنوعی',
-    template: '%s | قرص شمار | BeshmarAI',
+    default: 'BeshmarAI — Free On-Device AI Pill Counter',
+    template: '%s | BeshmarAI',
   },
   description: siteConfig.description,
-  applicationName: siteConfig.name,
-  authors: [
-    {
-      name: siteConfig.name,
-      url: siteConfig.url,
-    },
-  ],
-  creator: siteConfig.name,
-  publisher: siteConfig.name,
-  category: 'فناوری داروخانه و سلامت دیجیتال',
+  applicationName: 'BeshmarAI Pill Counter',
+  authors: [{ name: 'BeshmarAI', url: siteConfig.url }],
+  creator: 'BeshmarAI',
+  publisher: 'BeshmarAI',
+  category: 'Pharmacy technology and digital health',
   keywords: [
-    'شمارش قرص',
-    'شمارش قرص با دوربین',
-    'هوش مصنوعی داروخانه',
-    'تکنسین داروخانه',
-    'پسماند دارویی',
-    'بسته بندی دارو',
-    'مصرف منطقی دارو',
+    'pill counter',
+    'AI pill counting',
+    'pharmacy technician',
+    'on-device AI',
+    'private pill counter',
+    'WebGPU pill counting',
+    'offline PWA',
   ],
   manifest: '/manifest.webmanifest',
   alternates: {
     canonical: '/',
-    types: {
-      'application/rss+xml': '/feed.xml',
+    languages: {
+      en: '/',
+      fa: '/fa/',
+      'x-default': '/',
     },
+    types: { 'application/rss+xml': '/feed.xml' },
   },
   robots: {
     index: true,
@@ -56,64 +55,42 @@ export const metadata: Metadata = {
       'max-video-preview': -1,
     },
   },
-  formatDetection: {
-    telephone: false,
-    email: false,
-    address: false,
-  },
+  formatDetection: { telephone: false, email: false, address: false },
   ...(googleVerification
-    ? {
-        verification: {
-          google: googleVerification,
-        },
-      }
+    ? { verification: { google: googleVerification } }
     : {}),
   openGraph: {
     type: 'website',
-    locale: 'fa_IR',
+    locale: 'en_US',
+    alternateLocale: ['fa_IR'],
     url: siteConfig.url,
     siteName: siteConfig.name,
-    title: 'قرص شمار | BeshmarAI — شمارش قرص با هوش مصنوعی',
+    title: 'BeshmarAI — Free On-Device AI Pill Counter',
     description: siteConfig.description,
     images: [
       {
         url: '/images/og-default.png',
         width: 1200,
         height: 630,
-        alt: 'قرص شمار | BeshmarAI؛ شمارش قرص با هوش مصنوعی برای داروخانه',
+        alt: 'BeshmarAI on-device AI pill counter',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'قرص شمار | BeshmarAI — شمارش قرص با هوش مصنوعی',
+    title: 'BeshmarAI — Free On-Device AI Pill Counter',
     description: siteConfig.description,
     images: ['/images/og-default.png'],
   },
   icons: {
     icon: [
-      {
-        url: '/brand/site/favicon.ico',
-        sizes: 'any',
-      },
-      {
-        url: '/brand/site/favicon-32x32.png',
-        sizes: '32x32',
-        type: 'image/png',
-      },
-      {
-        url: '/brand/site/site-icon-192x192.png',
-        sizes: '192x192',
-        type: 'image/png',
-      },
+      { url: '/brand/site/favicon.ico', sizes: 'any' },
+      { url: '/brand/site/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/brand/site/site-icon-192x192.png', sizes: '192x192', type: 'image/png' },
     ],
     shortcut: '/brand/site/favicon.ico',
     apple: [
-      {
-        url: '/brand/site/apple-touch-icon.png',
-        sizes: '180x180',
-        type: 'image/png',
-      },
+      { url: '/brand/site/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
 }
@@ -123,25 +100,23 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: 'cover',
   colorScheme: 'dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#02080b' },
-    { media: '(prefers-color-scheme: light)', color: '#02080b' },
-  ],
+  themeColor: '#02080b',
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fa" dir="rtl">
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var fa=location.pathname==='/fa'||location.pathname.indexOf('/fa/')===0;document.documentElement.lang=fa?'fa':'en';document.documentElement.dir=fa?'rtl':'ltr';})();`,
+          }}
+        />
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
-        <a className="skip-link" href="#main">
-          پرش به محتوای اصلی
-        </a>
+        <LocaleSkipLink />
         <Header />
         {children}
         <Footer />

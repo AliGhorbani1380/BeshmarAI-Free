@@ -13,19 +13,84 @@ type NavItem = {
   campaign?: boolean
 }
 
-const navItems: NavItem[] = [
-  { href: '/#how-it-works', label: 'نحوه کار' },
-  { href: '/#features', label: 'امکانات' },
-  { href: '/campaign', label: 'پویش', match: '/campaign', campaign: true },
-  { href: '/pricing', label: 'نسخه رایگان', match: '/pricing' },
-  { href: '/blog', label: 'مجله', match: '/blog' },
-  { href: '/about', label: 'درباره ما', match: '/about' },
-  { href: '/support', label: 'پشتیبانی', match: '/support' },
+const englishNavItems: NavItem[] = [
+  { href: '/#how-it-works', label: 'How it works' },
+  { href: '/#features', label: 'Features' },
+  { href: '/campaign', label: 'Campaign', match: '/campaign', campaign: true },
+  { href: '/pricing', label: 'Free edition', match: '/pricing' },
+  { href: '/blog', label: 'Insights', match: '/blog' },
+  { href: '/about', label: 'About', match: '/about' },
+  { href: '/support', label: 'Support', match: '/support' },
 ]
+
+const persianNavItems: NavItem[] = [
+  { href: '/fa/#how-it-works', label: 'نحوه کار' },
+  { href: '/fa/#features', label: 'امکانات' },
+  {
+    href: '/fa/campaign',
+    label: 'پویش',
+    match: '/fa/campaign',
+    campaign: true,
+  },
+  {
+    href: '/fa/pricing',
+    label: 'نسخه رایگان',
+    match: '/fa/pricing',
+  },
+  {
+    href: '/fa/blog',
+    label: 'مجله',
+    match: '/fa/blog',
+  },
+  {
+    href: '/fa/about',
+    label: 'درباره ما',
+    match: '/fa/about',
+  },
+  {
+    href: '/fa/support',
+    label: 'پشتیبانی',
+    match: '/fa/support',
+  },
+]
+
+function switchLanguagePath(
+  pathname: string,
+  target: 'en' | 'fa',
+): string {
+  const normalized =
+    pathname || '/'
+
+  if (target === 'fa') {
+    return normalized.startsWith('/fa')
+      ? normalized
+      : normalized === '/'
+        ? '/fa/'
+        : `/fa${normalized}`
+  }
+
+  if (!normalized.startsWith('/fa')) {
+    return normalized
+  }
+
+  const withoutPrefix =
+    normalized.slice(3)
+
+  return withoutPrefix || '/'
+}
 
 export function Header() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+
+  const isPersian =
+    pathname === '/fa' ||
+    pathname.startsWith('/fa/')
+
+  const navItems =
+    isPersian
+      ? persianNavItems
+      : englishNavItems
 
   const closeMenu = () => setOpen(false)
 
@@ -38,30 +103,50 @@ export function Header() {
       return
     }
 
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+    const previousOverflow =
+      document.body.style.overflow
 
-    const onKeyDown = (event: KeyboardEvent) => {
+    document.body.style.overflow =
+      'hidden'
+
+    const onKeyDown = (
+      event: KeyboardEvent,
+    ) => {
       if (event.key === 'Escape') {
         setOpen(false)
       }
     }
 
-    window.addEventListener('keydown', onKeyDown)
+    window.addEventListener(
+      'keydown',
+      onKeyDown,
+    )
 
     return () => {
-      document.body.style.overflow = previousOverflow
-      window.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow =
+        previousOverflow
+
+      window.removeEventListener(
+        'keydown',
+        onKeyDown,
+      )
     }
   }, [open])
 
   return (
-    <header className="site-header">
+    <header
+      className="site-header"
+      dir={isPersian ? 'rtl' : 'ltr'}
+    >
       <div className="container nav">
         <Link
           className="brand"
-          href="/"
-          aria-label="صفحه اصلی قرص شمار | BeshmarAI"
+          href={isPersian ? '/fa/' : '/'}
+          aria-label={
+            isPersian
+              ? 'صفحه اصلی قرص شمار | BeshmarAI'
+              : 'BeshmarAI Pill Counter home'
+          }
         >
           <Image
             className="brand-logo-image"
@@ -76,50 +161,137 @@ export function Header() {
 
         <nav
           id="primary-navigation"
-          className={open ? 'nav-links open' : 'nav-links'}
-          aria-label="منوی اصلی"
+          className={
+            open
+              ? 'nav-links open'
+              : 'nav-links'
+          }
+          aria-label={
+            isPersian
+              ? 'منوی اصلی'
+              : 'Primary navigation'
+          }
         >
           {navItems.map((item) => {
             const active = item.match
-              ? pathname === item.match || pathname.startsWith(`${item.match}/`)
+              ? pathname === item.match ||
+                pathname.startsWith(
+                  `${item.match}/`,
+                )
               : false
 
             return (
               <Link
                 className={[
                   active ? 'active' : '',
-                  item.campaign ? 'campaign-nav-link-v4' : '',
+                  item.campaign
+                    ? 'campaign-nav-link-v4'
+                    : '',
                 ]
                   .filter(Boolean)
                   .join(' ')}
                 href={item.href}
                 key={`${item.href}-${item.label}`}
-                aria-current={active ? 'page' : undefined}
+                aria-current={
+                  active
+                    ? 'page'
+                    : undefined
+                }
                 onClick={closeMenu}
               >
-                {item.campaign ? <span aria-hidden="true">✦</span> : null}
+                {item.campaign ? (
+                  <span aria-hidden="true">
+                    ✦
+                  </span>
+                ) : null}
                 {item.label}
               </Link>
             )
           })}
 
-          <a className="mobile-nav-cta" href={siteConfig.appUrl} onClick={closeMenu}>
-            شروع شمارش رایگان
+          <a
+            className="mobile-nav-cta"
+            href={siteConfig.appUrl}
+            onClick={closeMenu}
+          >
+            {isPersian
+              ? 'شروع شمارش رایگان'
+              : 'Start counting free'}
           </a>
         </nav>
 
         <div className="nav-actions">
-          <a className="button nav-cta desktop-only" href={siteConfig.appUrl}>
-            شروع رایگان
+          <div
+            className="site-language-switch"
+            role="group"
+            aria-label={
+              isPersian
+                ? 'انتخاب زبان'
+                : 'Language'
+            }
+          >
+            <Link
+              className={
+                isPersian
+                  ? ''
+                  : 'active'
+              }
+              href={switchLanguagePath(
+                pathname,
+                'en',
+              )}
+              hrefLang="en"
+              lang="en"
+            >
+              EN
+            </Link>
+            <Link
+              className={
+                isPersian
+                  ? 'active'
+                  : ''
+              }
+              href={switchLanguagePath(
+                pathname,
+                'fa',
+              )}
+              hrefLang="fa"
+              lang="fa"
+            >
+              فارسی
+            </Link>
+          </div>
+
+          <a
+            className="button nav-cta desktop-only"
+            href={siteConfig.appUrl}
+          >
+            {isPersian
+              ? 'شروع رایگان'
+              : 'Open the free app'}
           </a>
 
           <button
             type="button"
-            className={open ? 'menu-button active' : 'menu-button'}
-            aria-label={open ? 'بستن منو' : 'نمایش منو'}
+            className={
+              open
+                ? 'menu-button active'
+                : 'menu-button'
+            }
+            aria-label={
+              open
+                ? isPersian
+                  ? 'بستن منو'
+                  : 'Close menu'
+                : isPersian
+                  ? 'نمایش منو'
+                  : 'Open menu'
+            }
             aria-expanded={open}
             aria-controls="primary-navigation"
-            onClick={() => setOpen((value) => !value)}
+            onClick={() =>
+              setOpen((value) => !value)
+            }
           >
             <span />
             <span />
