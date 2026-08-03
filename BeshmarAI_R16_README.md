@@ -29,6 +29,11 @@
     <img alt="No image upload" src="https://img.shields.io/badge/image%20upload-none-74f1b6" />
   </p>
 </div>
+<p align="center">
+  <img width="1672" height="941" alt="1" src="https://github.com/user-attachments/assets/0024d14c-493a-477b-b14a-aec3843e3fb3" alt="BeshmarAI pill-counting experience" />
+
+  
+</p>
 
 > **BeshmarAI is an assistive counting tool.** It returns a suggested count and visual detections that must be reviewed by the responsible user. It does not identify medicines, validate dosage, prescribe treatment, or replace professional pharmacy procedures.
 
