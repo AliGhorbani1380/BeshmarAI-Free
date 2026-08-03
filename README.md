@@ -26,7 +26,9 @@
 </div>
 
 <p align="center">
-  <img src="apps/site/public/images/hero-visual-v23.png" alt="BeshmarAI pill-counting experience" width="920" />
+  <img width="1672" height="941" alt="1" src="https://github.com/user-attachments/assets/0024d14c-493a-477b-b14a-aec3843e3fb3" alt="BeshmarAI pill-counting experience" />
+
+  
 </p>
 
 ## What makes the public edition different
