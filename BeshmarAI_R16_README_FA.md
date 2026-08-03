@@ -20,6 +20,11 @@
     <a href="README.md"><strong>English README</strong></a>
   </p>
 </div>
+<p align="center">
+  <img width="1672" height="941" alt="1" src="https://github.com/user-attachments/assets/0024d14c-493a-477b-b14a-aec3843e3fb3" alt="BeshmarAI pill-counting experience" />
+
+  
+</p>
 
 > **قرص شمار یک ابزار کمکی و قابل بازبینی است.** عدد پیشنهادی و نشانه‌های تشخیص باید توسط کاربر مسئول بررسی شوند. برنامه دارو را شناسایی نمی‌کند، دوز مصرف را تأیید نمی‌کند، نسخه نمی‌نویسد و جایگزین رویه‌های حرفه‌ای داروخانه نیست.
 
