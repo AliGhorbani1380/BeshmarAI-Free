@@ -7974,3 +7974,134 @@ strong {
 /* BESHMARAI_CAMERA_OPENING_PROGRESS_V19_END */
 
 /* BESHMARAI_PUBLIC_FREE_NO_TRIAL_NOTICE_V1 */
+
+/* BESHMARAI_PUBLIC_ABOUT_AND_CONTACT_V1_BEGIN */
+.about-content {
+  padding-bottom:
+    max(34px, env(safe-area-inset-bottom));
+}
+
+.about-hero-card {
+  border-color: rgba(85, 247, 255, 0.30);
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(85, 247, 255, 0.12),
+      transparent 44%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(8, 38, 45, 0.96),
+      rgba(2, 14, 18, 0.97)
+    );
+}
+
+.about-copy {
+  margin: 0;
+  color: #a8c4c8;
+  font-size: 11.5px;
+  line-height: 2;
+}
+
+.about-contact-list {
+  display: grid;
+  gap: 10px;
+}
+
+.about-contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 52px;
+  padding: 11px 13px;
+  border: 1px solid rgba(85, 247, 255, 0.13);
+  border-radius: 15px;
+  background: rgba(0, 12, 16, 0.48);
+}
+
+.about-contact-row span {
+  color: #829fa4;
+  font-size: 10.5px;
+  font-weight: 800;
+}
+
+.about-contact-row strong,
+.about-contact-row a {
+  color: #eaffff;
+  font-size: 11.5px;
+  font-weight: 950;
+  text-align: end;
+  text-decoration: none;
+}
+
+.about-contact-row a {
+  color: #66f3f7;
+}
+
+.about-link-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.about-action-link {
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+  padding: 8px 10px;
+  border: 1px solid rgba(85, 247, 255, 0.22);
+  border-radius: 14px;
+  color: #c8feff;
+  text-align: center;
+  text-decoration: none;
+  background: rgba(85, 247, 255, 0.05);
+  font-size: 10.5px;
+  font-weight: 900;
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.about-action-link:hover,
+.about-action-link:focus-visible {
+  border-color: rgba(85, 247, 255, 0.58);
+  outline: none;
+  background: rgba(85, 247, 255, 0.10);
+  transform: translateY(-1px);
+}
+
+.about-action-link:active {
+  transform: scale(0.98);
+}
+
+.about-safety-card {
+  border-color: rgba(255, 202, 111, 0.20);
+}
+
+.about-safety-card
+.settings-card-heading > span {
+  border-color: rgba(255, 202, 111, 0.30);
+  color: #ffd18a;
+  background: rgba(255, 202, 111, 0.07);
+}
+
+@media (max-width: 390px) {
+  .about-link-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-contact-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .about-contact-row strong,
+  .about-contact-row a {
+    text-align: start;
+  }
+}
+/* BESHMARAI_PUBLIC_ABOUT_AND_CONTACT_V1_END */

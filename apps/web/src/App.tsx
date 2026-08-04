@@ -39,7 +39,7 @@ import './styles.css'
 
 
 
-type AppScreen = 'menu' | 'camera' | 'settings'
+type AppScreen = 'menu' | 'camera' | 'settings' | 'about'
 type CameraState = 'opening' | 'ready' | 'error'
 
 type CameraDeviceOption = {
@@ -1467,6 +1467,173 @@ function assignPreviewSpatialNumbers(
     matchedCount,
     reinitialized: false,
   }
+}
+
+type AboutScreenProps = {
+  onBack: () => void
+}
+
+function AboutScreen({
+  onBack,
+}: AboutScreenProps) {
+  return (
+    <main
+      className="settings-shell"
+      dir="rtl"
+    >
+      <section className="settings-content about-content">
+        <header className="settings-header">
+          <button
+            className="settings-back-button"
+            type="button"
+            onClick={onBack}
+          >
+            بازگشت
+          </button>
+
+          <div>
+            <strong>درباره قرص شمار</strong>
+            <span>مشخصات پروژه و راه‌های ارتباطی</span>
+          </div>
+        </header>
+
+        <section className="settings-card about-hero-card">
+          <div className="settings-card-heading">
+            <span aria-hidden="true">🤖</span>
+            <div>
+              <strong>قرص‌شمار BeshmarAI</strong>
+              <small>نسخه عمومی رایگان</small>
+            </div>
+          </div>
+
+          <p className="about-copy">
+            قرص شمار یک کمک‌ابزار بینایی ماشین برای شمارش سریع و قابل بررسی قرص است. برنامه و مدل روی دستگاه شما اجرا می‌شوند و تصویر شمارش برای پردازش به سرور ارسال نمی‌شود.
+          </p>
+
+          <p className="settings-detected-camera">
+            حریم خصوصی در معماری: بدون حساب کاربری، OTP، پرداخت، اشتراک یا Endpoint ارسال تصویر.
+          </p>
+        </section>
+
+        <section className="settings-card">
+          <div className="settings-card-heading">
+            <span aria-hidden="true">👤</span>
+            <div>
+              <strong>مشخصات و تماس</strong>
+              <small>سازنده و نگهدارنده نسخه عمومی</small>
+            </div>
+          </div>
+
+          <div className="about-contact-list">
+            <div className="about-contact-row">
+              <span>سازنده و نگهدارنده</span>
+              <strong>{brand.creatorName}</strong>
+            </div>
+
+            <div className="about-contact-row">
+              <span>تلفن پشتیبانی</span>
+              <a
+                href={brand.supportPhoneHref}
+                dir="ltr"
+              >
+                {brand.supportPhoneDisplay}
+              </a>
+            </div>
+
+            <div className="about-contact-row">
+              <span>ایمیل پشتیبانی</span>
+              <a
+                href={`mailto:${brand.supportEmail}`}
+                dir="ltr"
+              >
+                {brand.supportEmail}
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section className="settings-card">
+          <div className="settings-card-heading">
+            <span aria-hidden="true">↗</span>
+            <div>
+              <strong>لینک‌های رسمی</strong>
+              <small>وب‌سایت، کد عمومی و پروفایل سازنده</small>
+            </div>
+          </div>
+
+          <div className="about-link-grid">
+            <a
+              className="about-action-link"
+              href={brand.supportPhoneHref}
+            >
+              تماس با پشتیبانی
+            </a>
+
+            <a
+              className="about-action-link"
+              href={`mailto:${brand.supportEmail}`}
+            >
+              ارسال ایمیل
+            </a>
+
+            <a
+              className="about-action-link"
+              href={brand.websiteUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              بازکردن وب‌سایت
+            </a>
+
+            <a
+              className="about-action-link"
+              href={brand.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              مشاهده مخزن عمومی
+            </a>
+
+            <a
+              className="about-action-link"
+              href={brand.githubProfileUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              پروفایل گیت‌هاب سازنده
+            </a>
+
+            <a
+              className="about-action-link"
+              href={brand.linkedinUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              مشاهده لینکدین
+            </a>
+          </div>
+        </section>
+
+        <section className="settings-card about-safety-card">
+          <div className="settings-card-heading">
+            <span aria-hidden="true">!</span>
+            <div>
+              <strong>هشدار ایمنی</strong>
+              <small>هر نتیجه را بازبینی کنید</small>
+            </div>
+          </div>
+
+          <p className="about-copy">
+            قرص شمار دارو را شناسایی نمی‌کند، دوز را تأیید نمی‌کند و جایگزین داروساز، مسئول فنی یا رویه‌های قانونی نیست. عدد پیشنهادی و نشانه‌های تشخیص را پیش از استفاده بررسی کنید.
+          </p>
+        </section>
+
+        <p className="settings-message">
+          {brand.englishName} · {brand.domain}
+        </p>
+      </section>
+    </main>
+  )
 }
 
 type SettingsScreenProps = {
@@ -7765,6 +7932,14 @@ function App() {
     )
   }
 
+  if (screen === 'about') {
+    return (
+      <AboutScreen
+        onBack={() => setScreen('menu')}
+      />
+    )
+  }
+
   function handleStartCounting() {
     setMessage(
       'در حال ورود به دوربین شمارش...',
@@ -7987,7 +8162,7 @@ function App() {
             type="button"
             onClick={() => {
               window.open(
-                'https://beshmarai.ir',
+                brand.websiteUrl,
                 '_blank',
                 'noopener,noreferrer',
               )
@@ -8063,8 +8238,31 @@ function App() {
             className="menu-card"
             type="button"
             onClick={() => {
+              setScreen('about')
+            }}
+          >
+            <span
+              className="menu-icon"
+              aria-hidden="true"
+            >
+              ⓘ
+            </span>
+
+            <span className="menu-card-title">
+              درباره ما
+            </span>
+
+            <span className="menu-card-subtitle">
+              مشخصات و راه‌های ارتباطی
+            </span>
+          </button>
+
+          <button
+            className="menu-card"
+            type="button"
+            onClick={() => {
               window.location.href =
-                'tel:09213314813'
+                brand.supportPhoneHref
             }}
           >
             <span

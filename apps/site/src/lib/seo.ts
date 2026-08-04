@@ -19,10 +19,21 @@ export function organizationJsonLd() {
       contentUrl: `${siteConfig.url}/brand/site/site-icon-512x512.png`,
     },
     email: siteConfig.supportEmail,
-    sameAs: [siteConfig.githubUrl],
+    telephone: siteConfig.supportPhoneE164,
+    founder: {
+      '@type': 'Person',
+      name: siteConfig.creatorName,
+      sameAs: [siteConfig.githubProfileUrl, siteConfig.linkedinUrl],
+    },
+    sameAs: [
+      siteConfig.githubUrl,
+      siteConfig.githubProfileUrl,
+      siteConfig.linkedinUrl,
+    ],
     contactPoint: {
       '@type': 'ContactPoint',
       email: siteConfig.supportEmail,
+      telephone: siteConfig.supportPhoneE164,
       contactType: 'customer support',
       availableLanguage: ['English', 'Persian'],
     },
